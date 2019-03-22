@@ -1,0 +1,3186 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container sti-build; cpu, memory limit for container sti-build; cpu, memory
+        request for init container git-clone; cpu, memory limit for init container
+        git-clone; cpu, memory request for init container manage-dockerfile; cpu,
+        memory limit for init container manage-dockerfile'
+      openshift.io/build.name: blue-1
+      openshift.io/scc: privileged
+    creationTimestamp: 2019-03-19T13:16:45Z
+    labels:
+      openshift.io/build.name: blue-1
+    name: blue-1-build
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: Build
+      name: blue-1
+      uid: 3e515af8-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "176600"
+    selfLink: /api/v1/namespaces/jei-deployments/pods/blue-1-build
+    uid: 3e535ea2-4a49-11e9-bdbd-0611106f25de
+  spec:
+    containers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-sti-build
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"blue-1","namespace":"jei-deployments","selfLink":"/apis/build.openshift.io/v1/namespaces/jei-deployments/builds/blue-1","uid":"3e515af8-4a49-11e9-bdbd-0611106f25de","resourceVersion":"176448","creationTimestamp":"2019-03-19T13:16:45Z","labels":{"app":"blue","buildconfig":"blue","name":"blue","openshift.io/build-config.name":"blue","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"blue","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"blue","uid":"3e4e88a9-4a49-11e9-bdbd-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/redhat-gpte-devopsautomation/cotd.git"}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2"},"pullSecret":{"name":"builder-dockercfg-ksz5g"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/jei-deployments/blue:latest"},"pushSecret":{"name":"builder-dockercfg-ksz5g"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"php:7.1"}}}]},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/jei-deployments/blue:latest","config":{"kind":"BuildConfig","namespace":"jei-deployments","name":"blue"},"output":{}}}
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: SOURCE_URI
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      - name: PULL_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/pull
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: sti-build
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/crio/crio.sock
+        name: crio-socket
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-ksz5g-push
+        readOnly: true
+      - mountPath: /var/run/secrets/openshift.io/pull
+        name: builder-dockercfg-ksz5g-pull
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-ncnwf
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: builder-dockercfg-ksz5g
+    initContainers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-git-clone
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"blue-1","namespace":"jei-deployments","selfLink":"/apis/build.openshift.io/v1/namespaces/jei-deployments/builds/blue-1","uid":"3e515af8-4a49-11e9-bdbd-0611106f25de","resourceVersion":"176448","creationTimestamp":"2019-03-19T13:16:45Z","labels":{"app":"blue","buildconfig":"blue","name":"blue","openshift.io/build-config.name":"blue","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"blue","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"blue","uid":"3e4e88a9-4a49-11e9-bdbd-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/redhat-gpte-devopsautomation/cotd.git"}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2"},"pullSecret":{"name":"builder-dockercfg-ksz5g"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/jei-deployments/blue:latest"},"pushSecret":{"name":"builder-dockercfg-ksz5g"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"php:7.1"}}}]},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/jei-deployments/blue:latest","config":{"kind":"BuildConfig","namespace":"jei-deployments","name":"blue"},"output":{}}}
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: SOURCE_URI
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: git-clone
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-ncnwf
+        readOnly: true
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-manage-dockerfile
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"blue-1","namespace":"jei-deployments","selfLink":"/apis/build.openshift.io/v1/namespaces/jei-deployments/builds/blue-1","uid":"3e515af8-4a49-11e9-bdbd-0611106f25de","resourceVersion":"176448","creationTimestamp":"2019-03-19T13:16:45Z","labels":{"app":"blue","buildconfig":"blue","name":"blue","openshift.io/build-config.name":"blue","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"blue","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"blue","uid":"3e4e88a9-4a49-11e9-bdbd-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/redhat-gpte-devopsautomation/cotd.git"}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2"},"pullSecret":{"name":"builder-dockercfg-ksz5g"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/jei-deployments/blue:latest"},"pushSecret":{"name":"builder-dockercfg-ksz5g"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"php:7.1"}}}]},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/jei-deployments/blue:latest","config":{"kind":"BuildConfig","namespace":"jei-deployments","name":"blue"},"output":{}}}
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: SOURCE_URI
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: manage-dockerfile
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-ncnwf
+        readOnly: true
+    nodeName: node3.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - emptyDir: {}
+      name: buildworkdir
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: docker-socket
+    - hostPath:
+        path: /var/run/crio/crio.sock
+        type: ""
+      name: crio-socket
+    - name: builder-dockercfg-ksz5g-push
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-ksz5g
+    - name: builder-dockercfg-ksz5g-pull
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-ksz5g
+    - name: builder-token-ncnwf
+      secret:
+        defaultMode: 420
+        secretName: builder-token-ncnwf
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T13:16:51Z
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T13:17:11Z
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T13:16:45Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://4ee70cf314288d5df4ae417506235e145b19c0d14f79442ae99e0bc86c1c827e
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: sti-build
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://4ee70cf314288d5df4ae417506235e145b19c0d14f79442ae99e0bc86c1c827e
+          exitCode: 0
+          finishedAt: 2019-03-19T13:17:11Z
+          reason: Completed
+          startedAt: 2019-03-19T13:16:51Z
+    hostIP: 192.168.0.56
+    initContainerStatuses:
+    - containerID: docker://cb85baa094f7604d5034cddc07baf94343a48e94034e9a6f8d0f921355d1be3f
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: git-clone
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://cb85baa094f7604d5034cddc07baf94343a48e94034e9a6f8d0f921355d1be3f
+          exitCode: 0
+          finishedAt: 2019-03-19T13:16:50Z
+          reason: Completed
+          startedAt: 2019-03-19T13:16:47Z
+    - containerID: docker://92649050ae7f7671cb2b485f9844c25774d00221f23f065a11153bc7b0dc830a
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: manage-dockerfile
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://92649050ae7f7671cb2b485f9844c25774d00221f23f065a11153bc7b0dc830a
+          exitCode: 0
+          finishedAt: 2019-03-19T13:16:51Z
+          reason: Completed
+          startedAt: 2019-03-19T13:16:50Z
+    phase: Succeeded
+    podIP: 10.1.14.50
+    qosClass: Burstable
+    startTime: 2019-03-19T13:16:45Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container deployment; cpu, memory limit for container deployment'
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.name: blue-6
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-19T14:08:42Z
+    labels:
+      openshift.io/deployer-pod-for.name: blue-6
+    name: blue-6-deploy
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: v1
+      kind: ReplicationController
+      name: blue-6
+      uid: 807417f6-4a50-11e9-bdbd-0611106f25de
+    resourceVersion: "193450"
+    selfLink: /api/v1/namespaces/jei-deployments/pods/blue-6-deploy
+    uid: 8074eada-4a50-11e9-bdbd-0611106f25de
+  spec:
+    activeDeadlineSeconds: 21600
+    containers:
+    - env:
+      - name: OPENSHIFT_DEPLOYMENT_NAME
+        value: blue-6
+      - name: OPENSHIFT_DEPLOYMENT_NAMESPACE
+        value: jei-deployments
+      image: registry.redhat.io/openshift3/ose-deployer:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: deployment
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1000690000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: deployer-token-dsjwn
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: deployer-dockercfg-rsrrv
+    nodeName: node4.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000690000
+      seLinuxOptions:
+        level: s0:c26,c20
+    serviceAccount: deployer
+    serviceAccountName: deployer
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: deployer-token-dsjwn
+      secret:
+        defaultMode: 420
+        secretName: deployer-token-dsjwn
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:08:42Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:18:50Z
+      message: 'containers with unready status: [deployment]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      message: 'containers with unready status: [deployment]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:08:42Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://94d951d21def2b27c25706074dbc060e4fd11aa7280e967cefa8b13185a3d208
+      image: registry.redhat.io/openshift3/ose-deployer:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-deployer@sha256:a9ef8287c53eeffad2deb899b014b5b4deba4124dc31c27b6135d4f57e66e54d
+      lastState: {}
+      name: deployment
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://94d951d21def2b27c25706074dbc060e4fd11aa7280e967cefa8b13185a3d208
+          exitCode: 1
+          finishedAt: 2019-03-19T14:18:50Z
+          reason: Error
+          startedAt: 2019-03-19T14:08:45Z
+    hostIP: 192.168.0.129
+    phase: Failed
+    podIP: 10.1.12.78
+    qosClass: Burstable
+    startTime: 2019-03-19T14:08:42Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container blue; cpu, memory limit for container blue'
+      openshift.io/deployment-config.latest-version: "8"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.name: blue-8
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-19T14:29:45Z
+    generateName: blue-8-
+    labels:
+      app: blue
+      deployment: blue-8
+      deploymentconfig: blue
+      name: blue
+    name: blue-8-2j5w4
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: blue-8
+      uid: 6e255db1-4a53-11e9-bdbd-0611106f25de
+    resourceVersion: "298228"
+    selfLink: /api/v1/namespaces/jei-deployments/pods/blue-8-2j5w4
+    uid: 7129d8fe-4a53-11e9-bdbd-0611106f25de
+  spec:
+    containers:
+    - env:
+      - name: SELECTOR
+        value: pets
+      image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /item.php
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: blue
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      - containerPort: 8443
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /item.php
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1000690000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-r2blf
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-fhqkr
+    nodeName: node1.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000690000
+      seLinuxOptions:
+        level: s0:c26,c20
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: default-token-r2blf
+      secret:
+        defaultMode: 420
+        secretName: default-token-r2blf
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:29:45Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T21:33:11Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:29:45Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://273ef237d314e65fecbdabcb85e251148aeea1062efb9a0cf19c16107fdb0269
+      image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+      imageID: docker-pullable://docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+      lastState:
+        terminated:
+          containerID: docker://e048e25f892b5240817d69f6a778c50a8760eb5d664a261c5bfe6eaa0d7ca126
+          exitCode: 0
+          finishedAt: 2019-03-19T21:21:05Z
+          reason: Completed
+          startedAt: 2019-03-19T14:29:48Z
+      name: blue
+      ready: true
+      restartCount: 1
+      state:
+        running:
+          startedAt: 2019-03-19T21:33:04Z
+    hostIP: 192.168.0.132
+    phase: Running
+    podIP: 10.1.11.145
+    qosClass: Burstable
+    startTime: 2019-03-19T14:29:45Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container sti-build; cpu, memory limit for container sti-build; cpu, memory
+        request for init container git-clone; cpu, memory limit for init container
+        git-clone; cpu, memory request for init container manage-dockerfile; cpu,
+        memory limit for init container manage-dockerfile'
+      openshift.io/build.name: green-1
+      openshift.io/scc: privileged
+    creationTimestamp: 2019-03-19T13:29:34Z
+    labels:
+      openshift.io/build.name: green-1
+    name: green-1-build
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: Build
+      name: green-1
+      uid: 0923cddc-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "180371"
+    selfLink: /api/v1/namespaces/jei-deployments/pods/green-1-build
+    uid: 09262c66-4a4b-11e9-bdbd-0611106f25de
+  spec:
+    containers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-sti-build
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"green-1","namespace":"jei-deployments","selfLink":"/apis/build.openshift.io/v1/namespaces/jei-deployments/builds/green-1","uid":"0923cddc-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"180227","creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","buildconfig":"green","name":"green","openshift.io/build-config.name":"green","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"green","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"green","uid":"0921629f-4a4b-11e9-bdbd-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/redhat-gpte-devopsautomation/cotd.git"}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2"},"pullSecret":{"name":"builder-dockercfg-ksz5g"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/jei-deployments/green:latest"},"pushSecret":{"name":"builder-dockercfg-ksz5g"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"php:7.1"}}}]},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/jei-deployments/green:latest","config":{"kind":"BuildConfig","namespace":"jei-deployments","name":"green"},"output":{}}}
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: SOURCE_URI
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      - name: PULL_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/pull
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: sti-build
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/crio/crio.sock
+        name: crio-socket
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-ksz5g-push
+        readOnly: true
+      - mountPath: /var/run/secrets/openshift.io/pull
+        name: builder-dockercfg-ksz5g-pull
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-ncnwf
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: builder-dockercfg-ksz5g
+    initContainers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-git-clone
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"green-1","namespace":"jei-deployments","selfLink":"/apis/build.openshift.io/v1/namespaces/jei-deployments/builds/green-1","uid":"0923cddc-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"180227","creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","buildconfig":"green","name":"green","openshift.io/build-config.name":"green","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"green","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"green","uid":"0921629f-4a4b-11e9-bdbd-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/redhat-gpte-devopsautomation/cotd.git"}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2"},"pullSecret":{"name":"builder-dockercfg-ksz5g"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/jei-deployments/green:latest"},"pushSecret":{"name":"builder-dockercfg-ksz5g"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"php:7.1"}}}]},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/jei-deployments/green:latest","config":{"kind":"BuildConfig","namespace":"jei-deployments","name":"green"},"output":{}}}
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: SOURCE_URI
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: git-clone
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-ncnwf
+        readOnly: true
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-manage-dockerfile
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"green-1","namespace":"jei-deployments","selfLink":"/apis/build.openshift.io/v1/namespaces/jei-deployments/builds/green-1","uid":"0923cddc-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"180227","creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","buildconfig":"green","name":"green","openshift.io/build-config.name":"green","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"green","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"green","uid":"0921629f-4a4b-11e9-bdbd-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Git","git":{"uri":"https://github.com/redhat-gpte-devopsautomation/cotd.git"}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2"},"pullSecret":{"name":"builder-dockercfg-ksz5g"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/jei-deployments/green:latest"},"pushSecret":{"name":"builder-dockercfg-ksz5g"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":[{"message":"Image change","imageChangeBuild":{"imageID":"docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2","fromRef":{"kind":"ImageStreamTag","namespace":"openshift","name":"php:7.1"}}}]},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/jei-deployments/green:latest","config":{"kind":"BuildConfig","namespace":"jei-deployments","name":"green"},"output":{}}}
+      - name: SOURCE_REPOSITORY
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: SOURCE_URI
+        value: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: manage-dockerfile
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-ncnwf
+        readOnly: true
+    nodeName: node4.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - emptyDir: {}
+      name: buildworkdir
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: docker-socket
+    - hostPath:
+        path: /var/run/crio/crio.sock
+        type: ""
+      name: crio-socket
+    - name: builder-dockercfg-ksz5g-push
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-ksz5g
+    - name: builder-dockercfg-ksz5g-pull
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-ksz5g
+    - name: builder-token-ncnwf
+      secret:
+        defaultMode: 420
+        secretName: builder-token-ncnwf
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T13:29:46Z
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T13:30:09Z
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T13:29:34Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://bdf8a49820f4840449fa0adef4baf859ac2620182756fa2bd0337856a73fbe28
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: sti-build
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://bdf8a49820f4840449fa0adef4baf859ac2620182756fa2bd0337856a73fbe28
+          exitCode: 0
+          finishedAt: 2019-03-19T13:30:09Z
+          reason: Completed
+          startedAt: 2019-03-19T13:29:47Z
+    hostIP: 192.168.0.129
+    initContainerStatuses:
+    - containerID: docker://8099c940d8fb2a7f90189c18c91e955f9956ba68c8e4996f5b9e11b221d06037
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: git-clone
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://8099c940d8fb2a7f90189c18c91e955f9956ba68c8e4996f5b9e11b221d06037
+          exitCode: 0
+          finishedAt: 2019-03-19T13:29:44Z
+          reason: Completed
+          startedAt: 2019-03-19T13:29:36Z
+    - containerID: docker://0a1d25758ce219320fce49a8a1125d5b527bb236fddc6a27e21521ac3959100d
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: manage-dockerfile
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://0a1d25758ce219320fce49a8a1125d5b527bb236fddc6a27e21521ac3959100d
+          exitCode: 0
+          finishedAt: 2019-03-19T13:29:45Z
+          reason: Completed
+          startedAt: 2019-03-19T13:29:45Z
+    phase: Succeeded
+    podIP: 10.1.12.58
+    qosClass: Burstable
+    startTime: 2019-03-19T13:29:34Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container deployment; cpu, memory limit for container deployment'
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.name: green-5
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-19T14:08:08Z
+    labels:
+      openshift.io/deployer-pod-for.name: green-5
+    name: green-5-deploy
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: v1
+      kind: ReplicationController
+      name: green-5
+      uid: 6c0fedb6-4a50-11e9-bdbd-0611106f25de
+    resourceVersion: "193305"
+    selfLink: /api/v1/namespaces/jei-deployments/pods/green-5-deploy
+    uid: 6c10d4ba-4a50-11e9-bdbd-0611106f25de
+  spec:
+    activeDeadlineSeconds: 21600
+    containers:
+    - env:
+      - name: OPENSHIFT_DEPLOYMENT_NAME
+        value: green-5
+      - name: OPENSHIFT_DEPLOYMENT_NAMESPACE
+        value: jei-deployments
+      image: registry.redhat.io/openshift3/ose-deployer:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: deployment
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1000690000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: deployer-token-dsjwn
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: deployer-dockercfg-rsrrv
+    nodeName: node6.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000690000
+      seLinuxOptions:
+        level: s0:c26,c20
+    serviceAccount: deployer
+    serviceAccountName: deployer
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: deployer-token-dsjwn
+      secret:
+        defaultMode: 420
+        secretName: deployer-token-dsjwn
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:08:08Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:18:16Z
+      message: 'containers with unready status: [deployment]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      message: 'containers with unready status: [deployment]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:08:08Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://2b42b76c73a8f4402403e6ef9bfa644576d1beb2faa9524c90dec6163e005967
+      image: registry.redhat.io/openshift3/ose-deployer:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-deployer@sha256:a9ef8287c53eeffad2deb899b014b5b4deba4124dc31c27b6135d4f57e66e54d
+      lastState: {}
+      name: deployment
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://2b42b76c73a8f4402403e6ef9bfa644576d1beb2faa9524c90dec6163e005967
+          exitCode: 1
+          finishedAt: 2019-03-19T14:18:16Z
+          reason: Error
+          startedAt: 2019-03-19T14:08:10Z
+    hostIP: 192.168.0.12
+    phase: Failed
+    podIP: 10.1.2.88
+    qosClass: Burstable
+    startTime: 2019-03-19T14:08:08Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container green; cpu, memory limit for container green'
+      openshift.io/deployment-config.latest-version: "7"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.name: green-7
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-19T14:30:05Z
+    generateName: green-7-
+    labels:
+      app: green
+      deployment: green-7
+      deploymentconfig: green
+      name: green
+    name: green-7-5nzwm
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: green-7
+      uid: 7904e863-4a53-11e9-bdbd-0611106f25de
+    resourceVersion: "297510"
+    selfLink: /api/v1/namespaces/jei-deployments/pods/green-7-5nzwm
+    uid: 7d08d0ce-4a53-11e9-bdbd-0611106f25de
+  spec:
+    containers:
+    - env:
+      - name: SELECTOR
+        value: cities
+      image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /item.php
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: green
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      - containerPort: 8443
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /item.php
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 2
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1000690000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-r2blf
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-fhqkr
+    nodeName: node3.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1000690000
+      seLinuxOptions:
+        level: s0:c26,c20
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: default-token-r2blf
+      secret:
+        defaultMode: 420
+        secretName: default-token-r2blf
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:30:05Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T21:32:34Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T14:30:05Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://2e904a8f9abfc5740626b9b93bc650496d5b5f2b46aae85a36814565521ccb4b
+      image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+      imageID: docker-pullable://docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+      lastState:
+        terminated:
+          containerID: docker://381dee151a850911f48f20684a73cf66763c29e8d6033e440e926df890877705
+          exitCode: 0
+          finishedAt: 2019-03-19T21:21:05Z
+          reason: Completed
+          startedAt: 2019-03-19T14:30:09Z
+      name: green
+      ready: true
+      restartCount: 1
+      state:
+        running:
+          startedAt: 2019-03-19T21:32:30Z
+    hostIP: 192.168.0.56
+    phase: Running
+    podIP: 10.1.14.206
+    qosClass: Burstable
+    startTime: 2019-03-19T14:30:05Z
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-03-19 13:17:17 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 13:17:10 +0000 UTC
+      openshift.io/deployer-pod.name: blue-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"176583","generation":2,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cats"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":1,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2019-03-19T13:16:45Z","lastTransitionTime":"2019-03-19T13:16:45Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: 2019-03-19T13:17:10Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-1
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "182429"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-1
+    uid: 4dc74b94-4a49-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: blue
+      deployment: blue-1
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-1
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cats
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-03-19 13:39:47 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 13:39:36 +0000 UTC
+      openshift.io/deployer-pod.name: blue-2-deploy
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"182338","generation":3,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"pets"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":2,"observedGeneration":2,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:17:17Z","lastTransitionTime":"2019-03-19T13:17:17Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T13:17:18Z","lastTransitionTime":"2019-03-19T13:17:18Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"blue-1\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T13:39:36Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-2
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "196090"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-2
+    uid: 6fb5c16f-4a4c-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: blue
+      deployment: blue-2
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "2"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-2
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-2
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: blue-2:6fb5c16f-4a4c-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:04:38 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:01:26 +0000 UTC
+      openshift.io/deployer-pod.name: blue-3-deploy
+      openshift.io/deployment-config.latest-version: "3"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"188162","generation":4,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"pets"}],"resources":{},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":3,"observedGeneration":3,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:17:17Z","lastTransitionTime":"2019-03-19T13:17:17Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T13:39:47Z","lastTransitionTime":"2019-03-19T13:39:45Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"blue-2\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:01:26Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-3
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "189466"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-3
+    uid: 7cb3e507-4a4f-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: blue
+      deployment: blue-3
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "3"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-3
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-3
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: blue-2:6fb5c16f-4a4c-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:07:01 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:04:39 +0000 UTC
+      openshift.io/deployer-pod.name: blue-4-deploy
+      openshift.io/deployment-config.latest-version: "4"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"189422","generation":5,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"pets"}],"resources":{},"readinessProbe":{"httpGet":{"path":"/item.php","port":8443,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":4,"observedGeneration":4,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:17:17Z","lastTransitionTime":"2019-03-19T13:17:17Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:01:30Z","lastTransitionTime":"2019-03-19T14:01:30Z","reason":"ReplicationControllerUpdated","message":"replication controller \"blue-3\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:04:39Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-4
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "190256"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-4
+    uid: ef80ea9e-4a4f-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: blue
+      deployment: blue-4
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "4"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-4
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-4
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8443
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: blue-2:6fb5c16f-4a4c-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:08:41 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:07:02 +0000 UTC
+      openshift.io/deployer-pod.name: blue-5-deploy
+      openshift.io/deployment-config.latest-version: "5"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"190212","generation":6,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"pets"}],"resources":{},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":5,"observedGeneration":5,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:17:17Z","lastTransitionTime":"2019-03-19T13:17:17Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:04:43Z","lastTransitionTime":"2019-03-19T14:04:43Z","reason":"ReplicationControllerUpdated","message":"replication controller \"blue-4\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:07:02Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-5
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "190855"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-5
+    uid: 44b37c17-4a50-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: blue
+      deployment: blue-5
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "5"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-5
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-5
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: blue-2:6fb5c16f-4a4c-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:18:50 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:08:42 +0000 UTC
+      openshift.io/deployer-pod.name: blue-6-deploy
+      openshift.io/deployment-config.latest-version: "6"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"190773","generation":7,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"pets"}],"resources":{},"livenessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":6,"observedGeneration":6,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:17:17Z","lastTransitionTime":"2019-03-19T13:17:17Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:07:06Z","lastTransitionTime":"2019-03-19T14:07:06Z","reason":"ReplicationControllerUpdated","message":"replication controller \"blue-5\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:08:42Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-6
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "193460"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-6
+    uid: 807417f6-4a50-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: blue
+      deployment: blue-6
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "6"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-6
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-6
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: blue-2:6fb5c16f-4a4c-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:29:39 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:26:05 +0000 UTC
+      openshift.io/deployer-pod.name: blue-7-deploy
+      openshift.io/deployment-config.latest-version: "7"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"195045","generation":8,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"pets"}],"resources":{},"livenessProbe":{"httpGet":{"path":"/item.php","port":8080,"scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":7,"observedGeneration":7,"replicas":1,"updatedReplicas":0,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:17:17Z","lastTransitionTime":"2019-03-19T13:17:17Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"False","lastUpdateTime":"2019-03-19T14:18:50Z","lastTransitionTime":"2019-03-19T14:18:50Z","reason":"ProgressDeadlineExceeded","message":"replication controller \"blue-6\" has failed progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:26:05Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-7
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "196026"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-7
+    uid: edf70d47-4a52-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: blue
+      deployment: blue-7
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "7"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-7
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-7
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:29:53 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:29:40 +0000 UTC
+      openshift.io/deployer-pod.name: blue-8-deploy
+      openshift.io/deployment-config.latest-version: "8"
+      openshift.io/deployment-config.name: blue
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"blue","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue","uid":"3e4fd593-4a49-11e9-bdbd-0611106f25de","resourceVersion":"195984","generation":9,"creationTimestamp":"2019-03-19T13:16:44Z","labels":{"app":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["blue"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"blue:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"blue","deploymentconfig":"blue","name":"blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"blue","deploymentconfig":"blue","name":"blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"blue","image":"docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"pets"}],"resources":{},"livenessProbe":{"httpGet":{"path":"/item.php","port":8080,"scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":8,"observedGeneration":8,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:17:17Z","lastTransitionTime":"2019-03-19T13:17:17Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:26:09Z","lastTransitionTime":"2019-03-19T14:26:09Z","reason":"ReplicationControllerUpdated","message":"replication controller \"blue-7\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:29:40Z
+    generation: 2
+    labels:
+      app: blue
+      name: blue
+      openshift.io/deployment-config.name: blue
+    name: blue-8
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: blue
+      uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "298229"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/blue-8
+    uid: 6e255db1-4a53-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    selector:
+      app: blue
+      deployment: blue-8
+      deploymentconfig: blue
+      name: blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "8"
+          openshift.io/deployment-config.name: blue
+          openshift.io/deployment.name: blue-8
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deployment: blue-8
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-03-19 13:30:14 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 13:30:08 +0000 UTC
+      openshift.io/deployer-pod.name: green-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"green","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green","uid":"0922c25e-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"180357","generation":2,"creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["green"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"green:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"green","deploymentconfig":"green","name":"green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"green","deploymentconfig":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"green","image":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cities"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":1,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2019-03-19T13:29:34Z","lastTransitionTime":"2019-03-19T13:29:34Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: 2019-03-19T13:30:08Z
+    generation: 3
+    labels:
+      app: green
+      name: green
+      openshift.io/deployment-config.name: green
+    name: green-1
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: green
+      uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "196300"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/green-1
+    uid: 1d8382d9-4a4b-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: green
+      deployment: green-1
+      deploymentconfig: green
+      name: green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: green
+          openshift.io/deployment.name: green-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deployment: green-1
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: green-1:1d8382d9-4a4b-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:05:49 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:01:14 +0000 UTC
+      openshift.io/deployer-pod.name: green-2-deploy
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"green","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green","uid":"0922c25e-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"188086","generation":3,"creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["green"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"green:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"green","deploymentconfig":"green","name":"green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"green","deploymentconfig":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"green","image":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cities"}],"resources":{},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":2,"observedGeneration":2,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:30:14Z","lastTransitionTime":"2019-03-19T13:30:14Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T13:30:15Z","lastTransitionTime":"2019-03-19T13:30:15Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"green-1\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:01:14Z
+    generation: 3
+    labels:
+      app: green
+      name: green
+      openshift.io/deployment-config.name: green
+    name: green-2
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: green
+      uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "189799"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/green-2
+    uid: 753c31bc-4a4f-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: green
+      deployment: green-2
+      deploymentconfig: green
+      name: green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "2"
+          openshift.io/deployment-config.name: green
+          openshift.io/deployment.name: green-2
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deployment: green-2
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: green-1:1d8382d9-4a4b-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:06:48 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:05:50 +0000 UTC
+      openshift.io/deployer-pod.name: green-3-deploy
+      openshift.io/deployment-config.latest-version: "3"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"green","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green","uid":"0922c25e-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"189753","generation":4,"creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["green"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"green:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"green","deploymentconfig":"green","name":"green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"green","deploymentconfig":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"green","image":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cities"}],"resources":{},"readinessProbe":{"httpGet":{"path":"/item.php","port":8443,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":3,"observedGeneration":3,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:30:14Z","lastTransitionTime":"2019-03-19T13:30:14Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:01:18Z","lastTransitionTime":"2019-03-19T14:01:18Z","reason":"ReplicationControllerUpdated","message":"replication controller \"green-2\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:05:50Z
+    generation: 3
+    labels:
+      app: green
+      name: green
+      openshift.io/deployment-config.name: green
+    name: green-3
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: green
+      uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "190127"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/green-3
+    uid: 19ae7a60-4a50-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: green
+      deployment: green-3
+      deploymentconfig: green
+      name: green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "3"
+          openshift.io/deployment-config.name: green
+          openshift.io/deployment.name: green-3
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deployment: green-3
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8443
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: green-1:1d8382d9-4a4b-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:08:07 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:06:48 +0000 UTC
+      openshift.io/deployer-pod.name: green-4-deploy
+      openshift.io/deployment-config.latest-version: "4"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"green","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green","uid":"0922c25e-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"190067","generation":5,"creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["green"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"green:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"green","deploymentconfig":"green","name":"green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"green","deploymentconfig":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"green","image":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cities"}],"resources":{},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":4,"observedGeneration":4,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:30:14Z","lastTransitionTime":"2019-03-19T13:30:14Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:05:54Z","lastTransitionTime":"2019-03-19T14:05:54Z","reason":"ReplicationControllerUpdated","message":"replication controller \"green-3\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:06:48Z
+    generation: 3
+    labels:
+      app: green
+      name: green
+      openshift.io/deployment-config.name: green
+    name: green-4
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: green
+      uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "190614"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/green-4
+    uid: 3cb45bef-4a50-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: green
+      deployment: green-4
+      deploymentconfig: green
+      name: green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "4"
+          openshift.io/deployment-config.name: green
+          openshift.io/deployment.name: green-4
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deployment: green-4
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: green-1:1d8382d9-4a4b-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:18:16 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:08:08 +0000 UTC
+      openshift.io/deployer-pod.name: green-5-deploy
+      openshift.io/deployment-config.latest-version: "5"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"green","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green","uid":"0922c25e-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"190565","generation":6,"creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["green"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"green:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"green","deploymentconfig":"green","name":"green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"green","deploymentconfig":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"green","image":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cities"}],"resources":{},"livenessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":5,"observedGeneration":5,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:30:14Z","lastTransitionTime":"2019-03-19T13:30:14Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:06:53Z","lastTransitionTime":"2019-03-19T14:06:53Z","reason":"ReplicationControllerUpdated","message":"replication controller \"green-4\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:08:08Z
+    generation: 3
+    labels:
+      app: green
+      name: green
+      openshift.io/deployment-config.name: green
+    name: green-5
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: green
+      uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "193315"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/green-5
+    uid: 6c0fedb6-4a50-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: green
+      deployment: green-5
+      deploymentconfig: green
+      name: green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "5"
+          openshift.io/deployment-config.name: green
+          openshift.io/deployment.name: green-5
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deployment: green-5
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/desired-replicas: "1"
+      kubectl.kubernetes.io/update-source-id: green-1:1d8382d9-4a4b-11e9-bdbd-0611106f25de
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:29:57 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:27:55 +0000 UTC
+      openshift.io/deployer-pod.name: green-6-deploy
+      openshift.io/deployment-config.latest-version: "6"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.cancelled: "true"
+      openshift.io/deployment.phase: Failed
+      openshift.io/deployment.replicas: "0"
+      openshift.io/deployment.status-reason: newer deployment was found running
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"green","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green","uid":"0922c25e-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"195494","generation":7,"creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["green"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"green:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"green","deploymentconfig":"green","name":"green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"green","deploymentconfig":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"green","image":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cities"}],"resources":{},"livenessProbe":{"httpGet":{"path":"/item.php","port":8080,"scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"host":"bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com","scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":6,"observedGeneration":6,"replicas":1,"updatedReplicas":0,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:30:14Z","lastTransitionTime":"2019-03-19T13:30:14Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"False","lastUpdateTime":"2019-03-19T14:18:16Z","lastTransitionTime":"2019-03-19T14:18:16Z","reason":"ProgressDeadlineExceeded","message":"replication controller \"green-5\" has failed progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:27:55Z
+    generation: 3
+    labels:
+      app: green
+      name: green
+      openshift.io/deployment-config.name: green
+    name: green-6
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: green
+      uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "196204"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/green-6
+    uid: 2f96bc0d-4a53-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: green
+      deployment: green-6
+      deploymentconfig: green
+      name: green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "6"
+          openshift.io/deployment-config.name: green
+          openshift.io/deployment.name: green-6
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deployment: green-6
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-03-19 14:30:16 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 14:29:58 +0000 UTC
+      openshift.io/deployer-pod.name: green-7-deploy
+      openshift.io/deployment-config.latest-version: "7"
+      openshift.io/deployment-config.name: green
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"green","namespace":"jei-deployments","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green","uid":"0922c25e-4a4b-11e9-bdbd-0611106f25de","resourceVersion":"196137","generation":8,"creationTimestamp":"2019-03-19T13:29:34Z","labels":{"app":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["green"],"from":{"kind":"ImageStreamTag","namespace":"jei-deployments","name":"green:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"green","deploymentconfig":"green","name":"green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"green","deploymentconfig":"green","name":"green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"green","image":"docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"env":[{"name":"SELECTOR","value":"cities"}],"resources":{},"livenessProbe":{"httpGet":{"path":"/item.php","port":8080,"scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"readinessProbe":{"httpGet":{"path":"/item.php","port":8080,"scheme":"HTTP"},"initialDelaySeconds":2,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":7,"observedGeneration":7,"replicas":2,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":1,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T13:30:14Z","lastTransitionTime":"2019-03-19T13:30:14Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T14:27:59Z","lastTransitionTime":"2019-03-19T14:27:59Z","reason":"ReplicationControllerUpdated","message":"replication controller \"green-6\" is progressing"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T14:29:58Z
+    generation: 2
+    labels:
+      app: green
+      name: green
+      openshift.io/deployment-config.name: green
+    name: green-7
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: green
+      uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "297511"
+    selfLink: /api/v1/namespaces/jei-deployments/replicationcontrollers/green-7
+    uid: 7904e863-4a53-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    selector:
+      app: green
+      deployment: green-7
+      deploymentconfig: green
+      name: green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "7"
+          openshift.io/deployment-config.name: green
+          openshift.io/deployment.name: green-7
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deployment: green-7
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T13:16:45Z
+    labels:
+      app: blue
+      name: blue
+    name: blue
+    namespace: jei-deployments
+    resourceVersion: "176447"
+    selfLink: /api/v1/namespaces/jei-deployments/services/blue
+    uid: 3e50ebab-4a49-11e9-bdbd-0611106f25de
+  spec:
+    clusterIP: 172.30.74.109
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: blue
+      deploymentconfig: blue
+      name: blue
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T13:29:34Z
+    labels:
+      app: green
+      name: green
+    name: green
+    namespace: jei-deployments
+    resourceVersion: "180228"
+    selfLink: /api/v1/namespaces/jei-deployments/services/green
+    uid: 09243df3-4a4b-11e9-bdbd-0611106f25de
+  spec:
+    clusterIP: 172.30.76.17
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: green
+      deploymentconfig: green
+      name: green
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T13:16:44Z
+    generation: 9
+    labels:
+      app: blue
+      name: blue
+    name: blue
+    namespace: jei-deployments
+    resourceVersion: "298231"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/blue
+    uid: 3e4fd593-4a49-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: blue
+      deploymentconfig: blue
+      name: blue
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: blue
+          deploymentconfig: blue
+          name: blue
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: pets
+          image: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: blue
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - blue
+        from:
+          kind: ImageStreamTag
+          name: blue:latest
+          namespace: jei-deployments
+        lastTriggeredImage: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-19T14:29:51Z
+      lastUpdateTime: 2019-03-19T14:29:54Z
+      message: replication controller "blue-8" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: 2019-03-19T21:33:11Z
+      lastUpdateTime: 2019-03-19T21:33:11Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 8
+    observedGeneration: 9
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T13:29:34Z
+    generation: 8
+    labels:
+      app: green
+      name: green
+    name: green
+    namespace: jei-deployments
+    resourceVersion: "297513"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/jei-deployments/deploymentconfigs/green
+    uid: 0922c25e-4a4b-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: green
+      deploymentconfig: green
+      name: green
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: green
+          deploymentconfig: green
+          name: green
+      spec:
+        containers:
+        - env:
+          - name: SELECTOR
+            value: cities
+          image: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: green
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /item.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - green
+        from:
+          kind: ImageStreamTag
+          name: green:latest
+          namespace: jei-deployments
+        lastTriggeredImage: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-19T14:30:14Z
+      lastUpdateTime: 2019-03-19T14:30:17Z
+      message: replication controller "green-7" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: 2019-03-19T21:32:45Z
+      lastUpdateTime: 2019-03-19T21:32:45Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 7
+    observedGeneration: 8
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T13:16:44Z
+    labels:
+      app: blue
+      name: blue
+    name: blue
+    namespace: jei-deployments
+    resourceVersion: "176446"
+    selfLink: /apis/build.openshift.io/v1/namespaces/jei-deployments/buildconfigs/blue
+    uid: 3e4e88a9-4a49-11e9-bdbd-0611106f25de
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: blue:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: php:7.1
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: dRjBQsujon0vV7fEU4Aw
+      type: GitHub
+    - generic:
+        secret: YHI3ZwkQzy2iC5rThw9V
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2
+      type: ImageChange
+  status:
+    lastVersion: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T13:29:34Z
+    labels:
+      app: green
+      name: green
+    name: green
+    namespace: jei-deployments
+    resourceVersion: "180225"
+    selfLink: /apis/build.openshift.io/v1/namespaces/jei-deployments/buildconfigs/green
+    uid: 0921629f-4a4b-11e9-bdbd-0611106f25de
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: green:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: php:7.1
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: c3_ZBwjzybgLalsjK37L
+      type: GitHub
+    - generic:
+        secret: VkIgL6Mltk4D-noa1Scr
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2
+      type: ImageChange
+  status:
+    lastVersion: 1
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: blue
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: blue-1-build
+    creationTimestamp: 2019-03-19T13:16:45Z
+    labels:
+      app: blue
+      buildconfig: blue
+      name: blue
+      openshift.io/build-config.name: blue
+      openshift.io/build.start-policy: Serial
+    name: blue-1
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: blue
+      uid: 3e4e88a9-4a49-11e9-bdbd-0611106f25de
+    resourceVersion: "176601"
+    selfLink: /apis/build.openshift.io/v1/namespaces/jei-deployments/builds/blue-1
+    uid: 3e515af8-4a49-11e9-bdbd-0611106f25de
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-ksz5g
+      to:
+        kind: ImageStreamTag
+        name: blue:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: wkulhanek@users.noreply.github.com
+          name: Wolfgang Kulhanek
+        commit: b53da24b6cfad8e31f0706f9ef8936761cba97e0
+        committer:
+          email: noreply@github.com
+          name: GitHub
+        message: 'Merge pull request #1 from StefanoPicozzi/master'
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        uri: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2
+        pullSecret:
+          name: builder-dockercfg-ksz5g
+      type: Source
+    triggeredBy:
+    - imageChangeBuild:
+        fromRef:
+          kind: ImageStreamTag
+          name: php:7.1
+          namespace: openshift
+        imageID: docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2
+      message: Image change
+  status:
+    completionTimestamp: 2019-03-19T13:17:11Z
+    config:
+      kind: BuildConfig
+      name: blue
+      namespace: jei-deployments
+    duration: 26000000000
+    output:
+      to:
+        imageDigest: sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+    outputDockerImageReference: docker-registry.default.svc:5000/jei-deployments/blue:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 1048
+      name: FetchInputs
+      startTime: 2019-03-19T13:16:48Z
+      steps:
+      - durationMilliseconds: 1048
+        name: FetchGitSource
+        startTime: 2019-03-19T13:16:48Z
+    - durationMilliseconds: 291
+      name: CommitContainer
+      startTime: 2019-03-19T13:16:53Z
+      steps:
+      - durationMilliseconds: 291
+        name: CommitContainer
+        startTime: 2019-03-19T13:16:53Z
+    - durationMilliseconds: 982
+      name: Assemble
+      startTime: 2019-03-19T13:16:52Z
+      steps:
+      - durationMilliseconds: 982
+        name: AssembleBuildScripts
+        startTime: 2019-03-19T13:16:52Z
+    - durationMilliseconds: 17523
+      name: PushImage
+      startTime: 2019-03-19T13:16:53Z
+      steps:
+      - durationMilliseconds: 17523
+        name: PushImage
+        startTime: 2019-03-19T13:16:53Z
+    startTimestamp: 2019-03-19T13:16:45Z
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: green
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: green-1-build
+    creationTimestamp: 2019-03-19T13:29:34Z
+    labels:
+      app: green
+      buildconfig: green
+      name: green
+      openshift.io/build-config.name: green
+      openshift.io/build.start-policy: Serial
+    name: green-1
+    namespace: jei-deployments
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: green
+      uid: 0921629f-4a4b-11e9-bdbd-0611106f25de
+    resourceVersion: "180372"
+    selfLink: /apis/build.openshift.io/v1/namespaces/jei-deployments/builds/green-1
+    uid: 0923cddc-4a4b-11e9-bdbd-0611106f25de
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-ksz5g
+      to:
+        kind: ImageStreamTag
+        name: green:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: wkulhanek@users.noreply.github.com
+          name: Wolfgang Kulhanek
+        commit: b53da24b6cfad8e31f0706f9ef8936761cba97e0
+        committer:
+          email: noreply@github.com
+          name: GitHub
+        message: 'Merge pull request #1 from StefanoPicozzi/master'
+      type: Git
+    serviceAccount: builder
+    source:
+      git:
+        uri: https://github.com/redhat-gpte-devopsautomation/cotd.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2
+        pullSecret:
+          name: builder-dockercfg-ksz5g
+      type: Source
+    triggeredBy:
+    - imageChangeBuild:
+        fromRef:
+          kind: ImageStreamTag
+          name: php:7.1
+          namespace: openshift
+        imageID: docker-registry.default.svc:5000/openshift/php@sha256:a288c8d47cc754ac13bb0c0b1ebadc57582515a1a65e7e9782b833d95b7670c2
+      message: Image change
+  status:
+    completionTimestamp: 2019-03-19T13:30:09Z
+    config:
+      kind: BuildConfig
+      name: green
+      namespace: jei-deployments
+    duration: 35000000000
+    output:
+      to:
+        imageDigest: sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+    outputDockerImageReference: docker-registry.default.svc:5000/jei-deployments/green:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 1342
+      name: FetchInputs
+      startTime: 2019-03-19T13:29:42Z
+      steps:
+      - durationMilliseconds: 1342
+        name: FetchGitSource
+        startTime: 2019-03-19T13:29:42Z
+    - durationMilliseconds: 374
+      name: CommitContainer
+      startTime: 2019-03-19T13:29:48Z
+      steps:
+      - durationMilliseconds: 374
+        name: CommitContainer
+        startTime: 2019-03-19T13:29:48Z
+    - durationMilliseconds: 1157
+      name: Assemble
+      startTime: 2019-03-19T13:29:47Z
+      steps:
+      - durationMilliseconds: 1157
+        name: AssembleBuildScripts
+        startTime: 2019-03-19T13:29:47Z
+    - durationMilliseconds: 20011
+      name: PushImage
+      startTime: 2019-03-19T13:29:48Z
+      steps:
+      - durationMilliseconds: 20011
+        name: PushImage
+        startTime: 2019-03-19T13:29:48Z
+    startTimestamp: 2019-03-19T13:29:34Z
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: 2019-03-19T13:17:09Z
+    creationTimestamp: 2019-03-19T13:16:44Z
+    generation: 3
+    labels:
+      app: blue
+      name: blue
+    name: blue
+    namespace: jei-deployments
+    resourceVersion: "176581"
+    selfLink: /apis/image.openshift.io/v1/namespaces/jei-deployments/imagestreams/blue
+    uid: 3e4d24c5-4a49-11e9-bdbd-0611106f25de
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: blue:latest
+      generation: 3
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/jei-deployments/blue
+    tags:
+    - items:
+      - created: 2019-03-19T13:17:10Z
+        dockerImageReference: docker-registry.default.svc:5000/jei-deployments/blue@sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+        generation: 3
+        image: sha256:b718ce3ca43460a445fa9801a03536e3a715d9ca76aced7cbe2685c0aebfb944
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T13:29:34Z
+    generation: 1
+    labels:
+      app: green
+      name: green
+    name: green
+    namespace: jei-deployments
+    resourceVersion: "180355"
+    selfLink: /apis/image.openshift.io/v1/namespaces/jei-deployments/imagestreams/green
+    uid: 091fcb7e-4a4b-11e9-bdbd-0611106f25de
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/jei-deployments/green
+    tags:
+    - items:
+      - created: 2019-03-19T13:30:08Z
+        dockerImageReference: docker-registry.default.svc:5000/jei-deployments/green@sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+        generation: 1
+        image: sha256:b4c33eb967a5e8e42c52c7a5feb065168d7403f3bcf387f2ed9497077274cfaa
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: 2019-03-19T14:33:03Z
+    creationTimestamp: 2019-03-19T14:33:02Z
+    generation: 2
+    labels:
+      app: logtofile
+    name: logtofile
+    namespace: jei-deployments
+    resourceVersion: "196969"
+    selfLink: /apis/image.openshift.io/v1/namespaces/jei-deployments/imagestreams/logtofile
+    uid: e6fd17ef-4a53-11e9-bdbd-0611106f25de
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: docker.io/wkulhanek/logtofile:latest
+      from:
+        kind: DockerImage
+        name: docker.io/wkulhanek/logtofile:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/jei-deployments/logtofile
+    tags:
+    - items:
+      - created: 2019-03-19T14:33:03Z
+        dockerImageReference: docker.io/wkulhanek/logtofile@sha256:ef013bc12e3d6baa56ff1b8b9323bdecfec69d2898ce7b4a276089e55fdebe0c
+        generation: 2
+        image: sha256:ef013bc12e3d6baa56ff1b8b9323bdecfec69d2898ce7b4a276089e55fdebe0c
+      tag: latest
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: 2019-03-19T13:22:24Z
+    labels:
+      app: blue
+      name: blue
+    name: bluegreen
+    namespace: jei-deployments
+    resourceVersion: "185988"
+    selfLink: /apis/route.openshift.io/v1/namespaces/jei-deployments/routes/bluegreen
+    uid: 08642fb7-4a4a-11e9-bdbd-0611106f25de
+  spec:
+    alternateBackends:
+    - kind: Service
+      name: blue
+      weight: 100
+    host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: green
+      weight: 0
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2019-03-19T13:22:24Z
+        status: "True"
+        type: Admitted
+      host: bluegreen-jei-deployments.apps.7b10.openshift.opentlc.com
+      routerName: router
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

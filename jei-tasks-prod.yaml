@@ -1,0 +1,1113 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container tasks-blue; cpu, memory limit for container tasks-blue'
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: tasks-blue
+      openshift.io/deployment.name: tasks-blue-2
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-22T15:22:43Z
+    generateName: tasks-blue-2-
+    labels:
+      app: tasks-blue
+      deployment: tasks-blue-2
+      deploymentconfig: tasks-blue
+    name: tasks-blue-2-zhvkb
+    namespace: jei-tasks-prod
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: tasks-blue-2
+      uid: 5408de8d-4cb6-11e9-b999-0611106f25de
+    resourceVersion: "1039945"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/pods/tasks-blue-2-zhvkb
+    uid: 56872171-4cb6-11e9-b999-0611106f25de
+  spec:
+    containers:
+    - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+      imagePullPolicy: IfNotPresent
+      name: tasks-blue
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1003460000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /opt/eap/standalone/configuration/application-users.properties
+        name: jboss-config
+        subPath: application-users.properties
+      - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+        name: jboss-config1
+        subPath: application-roles.properties
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-9v8ch
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-hh2c4
+    nodeName: node6.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1003460000
+      seLinuxOptions:
+        level: s0:c59,c19
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: tasks-blue-config
+      name: jboss-config
+    - configMap:
+        defaultMode: 420
+        name: tasks-blue-config
+      name: jboss-config1
+    - name: default-token-9v8ch
+      secret:
+        defaultMode: 420
+        secretName: default-token-9v8ch
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-22T15:22:43Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-22T15:23:57Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-22T15:22:43Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://ecd805816fd1b46bf397b4b8f10d2b73c77e0249b7a2711fd23393854a419d40
+      image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+      imageID: docker-pullable://docker-registry.default.svc:5000/jei-tasks-dev/tasks@sha256:0f2a0d71da8ea776e6b9710671eddf48c17d1c6b84cbc154f22c17f37dba2e86
+      lastState: {}
+      name: tasks-blue
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: 2019-03-22T15:22:46Z
+    hostIP: 192.168.0.12
+    phase: Running
+    podIP: 10.1.2.13
+    qosClass: Burstable
+    startTime: 2019-03-22T15:22:43Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container tasks-green; cpu, memory limit for container tasks-green'
+      openshift.io/deployment-config.latest-version: "3"
+      openshift.io/deployment-config.name: tasks-green
+      openshift.io/deployment.name: tasks-green-3
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-22T15:12:44Z
+    generateName: tasks-green-3-
+    labels:
+      app: tasks-green
+      deployment: tasks-green-3
+      deploymentconfig: tasks-green
+    name: tasks-green-3-w8qht
+    namespace: jei-tasks-prod
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: tasks-green-3
+      uid: ef3fc226-4cb4-11e9-b999-0611106f25de
+    resourceVersion: "1037751"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/pods/tasks-green-3-w8qht
+    uid: f1841daf-4cb4-11e9-b999-0611106f25de
+  spec:
+    containers:
+    - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+      imagePullPolicy: IfNotPresent
+      name: tasks-green
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 8080
+          scheme: HTTP
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1003460000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /opt/eap/standalone/configuration/application-users.properties
+        name: jboss-config
+        subPath: application-users.properties
+      - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+        name: jboss-config1
+        subPath: application-roles.properties
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-9v8ch
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-hh2c4
+    nodeName: node5.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1003460000
+      seLinuxOptions:
+        level: s0:c59,c19
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - configMap:
+        defaultMode: 420
+        name: tasks-green-config
+      name: jboss-config
+    - configMap:
+        defaultMode: 420
+        name: tasks-green-config
+      name: jboss-config1
+    - name: default-token-9v8ch
+      secret:
+        defaultMode: 420
+        secretName: default-token-9v8ch
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-22T15:12:44Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-22T15:13:59Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-22T15:12:44Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://9355be341a0ddf5df339b8cedab2393dd7241c641e4db747426632df85dbb875
+      image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+      imageID: docker-pullable://docker-registry.default.svc:5000/jei-tasks-dev/tasks@sha256:7ebd86800b3b4e40cf9f0f23722f9ed9f1831c4ee8fd45a23b2a38101021ca41
+      lastState: {}
+      name: tasks-green
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: 2019-03-22T15:12:47Z
+    hostIP: 192.168.0.247
+    phase: Running
+    podIP: 10.1.4.56
+    qosClass: Burstable
+    startTime: 2019-03-22T15:12:44Z
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-03-22 14:52:46 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-22 14:51:24 +0000 UTC
+      openshift.io/deployer-pod.name: tasks-blue-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: tasks-blue
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"tasks-blue","namespace":"jei-tasks-prod","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-blue","uid":"0efb79ab-4c06-11e9-b999-0611106f25de","resourceVersion":"1032463","generation":7,"creationTimestamp":"2019-03-21T18:20:51Z","labels":{"app":"tasks-blue"},"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"apps.openshift.io/v1\",\"kind\":\"DeploymentConfig\",\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":\"2019-03-21T18:20:51Z\",\"generation\":5,\"labels\":{\"app\":\"tasks-blue\"},\"name\":\"tasks-blue\",\"namespace\":\"jei-tasks-prod\",\"resourceVersion\":\"797350\",\"selfLink\":\"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-blue\",\"uid\":\"0efb79ab-4c06-11e9-b999-0611106f25de\"},\"spec\":{\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"app\":\"tasks-blue\",\"deploymentconfig\":\"tasks-blue\"},\"strategy\":{\"activeDeadlineSeconds\":21600,\"resources\":{},\"rollingParams\":{\"intervalSeconds\":1,\"maxSurge\":\"25%\",\"maxUnavailable\":\"25%\",\"timeoutSeconds\":600,\"updatePeriodSeconds\":1},\"type\":\"Rolling\"},\"template\":{\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":null,\"labels\":{\"app\":\"tasks-blue\",\"deploymentconfig\":\"tasks-blue\"}},\"spec\":{\"containers\":[{\"image\":\"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"tasks-blue\",\"readinessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/\",\"port\":8080,\"scheme\":\"HTTP\"},\"initialDelaySeconds\":60,\"periodSeconds\":10,\"successThreshold\":1,\"timeoutSeconds\":1},\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"terminationMessagePolicy\":\"File\",\"volumeMounts\":[{\"mountPath\":\"/opt/eap/standalone/configuration/application-users.properties\",\"name\":\"jboss-config\",\"subPath\":\"application-users.properties\"},{\"mountPath\":\"/opt/eap/standalone/configuration/application-roles.properties\",\"name\":\"jboss-config1\",\"subPath\":\"application-roles.properties\"}]}],\"dnsPolicy\":\"ClusterFirst\",\"restartPolicy\":\"Always\",\"schedulerName\":\"default-scheduler\",\"securityContext\":{},\"terminationGracePeriodSeconds\":30,\"volumes\":[{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-blue-config\"},\"name\":\"jboss-config\"},{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-blue-config\"},\"name\":\"jboss-config1\"}]}},\"test\":false,\"triggers\":[]},\"status\":{\"availableReplicas\":0,\"conditions\":[{\"lastTransitionTime\":\"2019-03-21T18:20:51Z\",\"lastUpdateTime\":\"2019-03-21T18:20:51Z\",\"message\":\"Deployment config does not have minimum availability.\",\"status\":\"False\",\"type\":\"Available\"}],\"latestVersion\":0,\"observedGeneration\":5,\"replicas\":0,\"unavailableReplicas\":0,\"updatedReplicas\":0}}\n","openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"tasks-blue","deploymentconfig":"tasks-blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"tasks-blue","deploymentconfig":"tasks-blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"jboss-config","configMap":{"name":"tasks-blue-config","defaultMode":420}},{"name":"jboss-config1","configMap":{"name":"tasks-blue-config","defaultMode":420}}],"containers":[{"name":"tasks-blue","image":"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1","resources":{},"volumeMounts":[{"name":"jboss-config","mountPath":"/opt/eap/standalone/configuration/application-users.properties","subPath":"application-users.properties"},{"name":"jboss-config1","mountPath":"/opt/eap/standalone/configuration/application-roles.properties","subPath":"application-roles.properties"}],"readinessProbe":{"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":6,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2019-03-21T18:20:51Z","lastTransitionTime":"2019-03-21T18:20:51Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: 2019-03-22T14:51:24Z
+    generation: 3
+    labels:
+      app: tasks-blue
+      openshift.io/deployment-config.name: tasks-blue
+    name: tasks-blue-1
+    namespace: jei-tasks-prod
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: tasks-blue
+      uid: 0efb79ab-4c06-11e9-b999-0611106f25de
+    resourceVersion: "1039959"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/replicationcontrollers/tasks-blue-1
+    uid: f6fd437d-4cb1-11e9-b999-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: tasks-blue
+      deployment: tasks-blue-1
+      deploymentconfig: tasks-blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: tasks-blue
+          openshift.io/deployment.name: tasks-blue-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: tasks-blue
+          deployment: tasks-blue-1
+          deploymentconfig: tasks-blue
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+          imagePullPolicy: IfNotPresent
+          name: tasks-blue
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/eap/standalone/configuration/application-users.properties
+            name: jboss-config
+            subPath: application-users.properties
+          - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+            name: jboss-config1
+            subPath: application-roles.properties
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tasks-blue-config
+          name: jboss-config
+        - configMap:
+            defaultMode: 420
+            name: tasks-blue-config
+          name: jboss-config1
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-03-22 15:24:00 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-22 15:22:38 +0000 UTC
+      openshift.io/deployer-pod.name: tasks-blue-2-deploy
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: tasks-blue
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"tasks-blue","namespace":"jei-tasks-prod","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-blue","uid":"0efb79ab-4c06-11e9-b999-0611106f25de","resourceVersion":"1039651","generation":8,"creationTimestamp":"2019-03-21T18:20:51Z","labels":{"app":"tasks-blue"},"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"apps.openshift.io/v1\",\"kind\":\"DeploymentConfig\",\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":\"2019-03-21T18:20:51Z\",\"generation\":7,\"labels\":{\"app\":\"tasks-blue\"},\"name\":\"tasks-blue\",\"namespace\":\"jei-tasks-prod\",\"resourceVersion\":\"1032887\",\"selfLink\":\"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-blue\",\"uid\":\"0efb79ab-4c06-11e9-b999-0611106f25de\"},\"spec\":{\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"app\":\"tasks-blue\",\"deploymentconfig\":\"tasks-blue\"},\"strategy\":{\"activeDeadlineSeconds\":21600,\"resources\":{},\"rollingParams\":{\"intervalSeconds\":1,\"maxSurge\":\"25%\",\"maxUnavailable\":\"25%\",\"timeoutSeconds\":600,\"updatePeriodSeconds\":1},\"type\":\"Rolling\"},\"template\":{\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":null,\"labels\":{\"app\":\"tasks-blue\",\"deploymentconfig\":\"tasks-blue\"}},\"spec\":{\"containers\":[{\"image\":\"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"tasks-blue\",\"readinessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/\",\"port\":8080,\"scheme\":\"HTTP\"},\"initialDelaySeconds\":60,\"periodSeconds\":10,\"successThreshold\":1,\"timeoutSeconds\":1},\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"terminationMessagePolicy\":\"File\",\"volumeMounts\":[{\"mountPath\":\"/opt/eap/standalone/configuration/application-users.properties\",\"name\":\"jboss-config\",\"subPath\":\"application-users.properties\"},{\"mountPath\":\"/opt/eap/standalone/configuration/application-roles.properties\",\"name\":\"jboss-config1\",\"subPath\":\"application-roles.properties\"}]}],\"dnsPolicy\":\"ClusterFirst\",\"restartPolicy\":\"Always\",\"schedulerName\":\"default-scheduler\",\"securityContext\":{},\"terminationGracePeriodSeconds\":30,\"volumes\":[{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-blue-config\"},\"name\":\"jboss-config\"},{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-blue-config\"},\"name\":\"jboss-config1\"}]}},\"test\":false,\"triggers\":[]},\"status\":{\"availableReplicas\":1,\"conditions\":[{\"lastTransitionTime\":\"2019-03-22T14:52:46Z\",\"lastUpdateTime\":\"2019-03-22T14:52:46Z\",\"message\":\"Deployment config has minimum availability.\",\"status\":\"True\",\"type\":\"Available\"},{\"lastTransitionTime\":\"2019-03-22T14:51:28Z\",\"lastUpdateTime\":\"2019-03-22T14:52:46Z\",\"message\":\"replication controller \\\"tasks-blue-1\\\" successfully rolled out\",\"reason\":\"NewReplicationControllerAvailable\",\"status\":\"True\",\"type\":\"Progressing\"}],\"details\":{\"causes\":[{\"type\":\"Manual\"}],\"message\":\"manual change\"},\"latestVersion\":1,\"observedGeneration\":7,\"readyReplicas\":1,\"replicas\":1,\"unavailableReplicas\":0,\"updatedReplicas\":1}}\n","openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"tasks-blue","deploymentconfig":"tasks-blue"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"tasks-blue","deploymentconfig":"tasks-blue"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"jboss-config","configMap":{"name":"tasks-blue-config","defaultMode":420}},{"name":"jboss-config1","configMap":{"name":"tasks-blue-config","defaultMode":420}}],"containers":[{"name":"tasks-blue","image":"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1","resources":{},"volumeMounts":[{"name":"jboss-config","mountPath":"/opt/eap/standalone/configuration/application-users.properties","subPath":"application-users.properties"},{"name":"jboss-config1","mountPath":"/opt/eap/standalone/configuration/application-roles.properties","subPath":"application-roles.properties"}],"readinessProbe":{"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":2,"observedGeneration":7,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-22T14:52:46Z","lastTransitionTime":"2019-03-22T14:52:46Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-22T14:52:46Z","lastTransitionTime":"2019-03-22T14:51:28Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"tasks-blue-1\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-22T15:22:38Z
+    generation: 2
+    labels:
+      app: tasks-blue
+      openshift.io/deployment-config.name: tasks-blue
+    name: tasks-blue-2
+    namespace: jei-tasks-prod
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: tasks-blue
+      uid: 0efb79ab-4c06-11e9-b999-0611106f25de
+    resourceVersion: "1039972"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/replicationcontrollers/tasks-blue-2
+    uid: 5408de8d-4cb6-11e9-b999-0611106f25de
+  spec:
+    replicas: 1
+    selector:
+      app: tasks-blue
+      deployment: tasks-blue-2
+      deploymentconfig: tasks-blue
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "2"
+          openshift.io/deployment-config.name: tasks-blue
+          openshift.io/deployment.name: tasks-blue-2
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: tasks-blue
+          deployment: tasks-blue-2
+          deploymentconfig: tasks-blue
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+          imagePullPolicy: IfNotPresent
+          name: tasks-blue
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/eap/standalone/configuration/application-users.properties
+            name: jboss-config
+            subPath: application-users.properties
+          - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+            name: jboss-config1
+            subPath: application-roles.properties
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tasks-blue-config
+          name: jboss-config
+        - configMap:
+            defaultMode: 420
+            name: tasks-blue-config
+          name: jboss-config1
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-03-22 13:59:23 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-22 13:58:07 +0000 UTC
+      openshift.io/deployer-pod.name: tasks-green-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: tasks-green
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"tasks-green","namespace":"jei-tasks-prod","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green","uid":"763eb841-4c07-11e9-b999-0611106f25de","resourceVersion":"1020531","generation":7,"creationTimestamp":"2019-03-21T18:30:54Z","labels":{"app":"tasks-green"},"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"apps.openshift.io/v1\",\"kind\":\"DeploymentConfig\",\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":\"2019-03-21T18:30:54Z\",\"generation\":5,\"labels\":{\"app\":\"tasks-green\"},\"name\":\"tasks-green\",\"namespace\":\"jei-tasks-prod\",\"resourceVersion\":\"800291\",\"selfLink\":\"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green\",\"uid\":\"763eb841-4c07-11e9-b999-0611106f25de\"},\"spec\":{\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"app\":\"tasks-green\",\"deploymentconfig\":\"tasks-green\"},\"strategy\":{\"activeDeadlineSeconds\":21600,\"resources\":{},\"rollingParams\":{\"intervalSeconds\":1,\"maxSurge\":\"25%\",\"maxUnavailable\":\"25%\",\"timeoutSeconds\":600,\"updatePeriodSeconds\":1},\"type\":\"Rolling\"},\"template\":{\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":null,\"labels\":{\"app\":\"tasks-green\",\"deploymentconfig\":\"tasks-green\"}},\"spec\":{\"containers\":[{\"image\":\"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.0-0\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"tasks-green\",\"readinessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/\",\"port\":8080,\"scheme\":\"HTTP\"},\"initialDelaySeconds\":60,\"periodSeconds\":10,\"successThreshold\":1,\"timeoutSeconds\":1},\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"terminationMessagePolicy\":\"File\",\"volumeMounts\":[{\"mountPath\":\"/opt/eap/standalone/configuration/application-users.properties\",\"name\":\"jboss-config\",\"subPath\":\"application-users.properties\"},{\"mountPath\":\"/opt/eap/standalone/configuration/application-roles.properties\",\"name\":\"jboss-config1\",\"subPath\":\"application-roles.properties\"}]}],\"dnsPolicy\":\"ClusterFirst\",\"restartPolicy\":\"Always\",\"schedulerName\":\"default-scheduler\",\"securityContext\":{},\"terminationGracePeriodSeconds\":30,\"volumes\":[{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-green-config\"},\"name\":\"jboss-config\"},{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-green-config\"},\"name\":\"jboss-config1\"}]}},\"test\":false,\"triggers\":[]},\"status\":{\"availableReplicas\":0,\"conditions\":[{\"lastTransitionTime\":\"2019-03-21T18:30:54Z\",\"lastUpdateTime\":\"2019-03-21T18:30:54Z\",\"message\":\"Deployment config does not have minimum availability.\",\"status\":\"False\",\"type\":\"Available\"}],\"latestVersion\":0,\"observedGeneration\":5,\"replicas\":0,\"unavailableReplicas\":0,\"updatedReplicas\":0}}\n","openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"tasks-green","deploymentconfig":"tasks-green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"tasks-green","deploymentconfig":"tasks-green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"jboss-config","configMap":{"name":"tasks-green-config","defaultMode":420}},{"name":"jboss-config1","configMap":{"name":"tasks-green-config","defaultMode":420}}],"containers":[{"name":"tasks-green","image":"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.0-0","resources":{},"volumeMounts":[{"name":"jboss-config","mountPath":"/opt/eap/standalone/configuration/application-users.properties","subPath":"application-users.properties"},{"name":"jboss-config1","mountPath":"/opt/eap/standalone/configuration/application-roles.properties","subPath":"application-roles.properties"}],"readinessProbe":{"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":6,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2019-03-21T18:30:54Z","lastTransitionTime":"2019-03-21T18:30:54Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: 2019-03-22T13:58:07Z
+    generation: 3
+    labels:
+      app: tasks-green
+      openshift.io/deployment-config.name: tasks-green
+    name: tasks-green-1
+    namespace: jei-tasks-prod
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: tasks-green
+      uid: 763eb841-4c07-11e9-b999-0611106f25de
+    resourceVersion: "1024971"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/replicationcontrollers/tasks-green-1
+    uid: 84f4cb1b-4caa-11e9-b999-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: tasks-green
+      deployment: tasks-green-1
+      deploymentconfig: tasks-green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: tasks-green
+          openshift.io/deployment.name: tasks-green-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: tasks-green
+          deployment: tasks-green-1
+          deploymentconfig: tasks-green
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.0-0
+          imagePullPolicy: IfNotPresent
+          name: tasks-green
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/eap/standalone/configuration/application-users.properties
+            name: jboss-config
+            subPath: application-users.properties
+          - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+            name: jboss-config1
+            subPath: application-roles.properties
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config1
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/original-replicas: "1"
+      openshift.io/deployer-pod.completed-at: 2019-03-22 14:18:33 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-22 14:17:10 +0000 UTC
+      openshift.io/deployer-pod.name: tasks-green-2-deploy
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: tasks-green
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"tasks-green","namespace":"jei-tasks-prod","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green","uid":"763eb841-4c07-11e9-b999-0611106f25de","resourceVersion":"1024617","generation":8,"creationTimestamp":"2019-03-21T18:30:54Z","labels":{"app":"tasks-green"},"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"apps.openshift.io/v1\",\"kind\":\"DeploymentConfig\",\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":\"2019-03-21T18:30:54Z\",\"generation\":7,\"labels\":{\"app\":\"tasks-green\"},\"name\":\"tasks-green\",\"namespace\":\"jei-tasks-prod\",\"resourceVersion\":\"1020853\",\"selfLink\":\"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green\",\"uid\":\"763eb841-4c07-11e9-b999-0611106f25de\"},\"spec\":{\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"app\":\"tasks-green\",\"deploymentconfig\":\"tasks-green\"},\"strategy\":{\"activeDeadlineSeconds\":21600,\"resources\":{},\"rollingParams\":{\"intervalSeconds\":1,\"maxSurge\":\"25%\",\"maxUnavailable\":\"25%\",\"timeoutSeconds\":600,\"updatePeriodSeconds\":1},\"type\":\"Rolling\"},\"template\":{\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":null,\"labels\":{\"app\":\"tasks-green\",\"deploymentconfig\":\"tasks-green\"}},\"spec\":{\"containers\":[{\"image\":\"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.0-0\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"tasks-green\",\"readinessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/\",\"port\":8080,\"scheme\":\"HTTP\"},\"initialDelaySeconds\":60,\"periodSeconds\":10,\"successThreshold\":1,\"timeoutSeconds\":1},\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"terminationMessagePolicy\":\"File\",\"volumeMounts\":[{\"mountPath\":\"/opt/eap/standalone/configuration/application-users.properties\",\"name\":\"jboss-config\",\"subPath\":\"application-users.properties\"},{\"mountPath\":\"/opt/eap/standalone/configuration/application-roles.properties\",\"name\":\"jboss-config1\",\"subPath\":\"application-roles.properties\"}]}],\"dnsPolicy\":\"ClusterFirst\",\"restartPolicy\":\"Always\",\"schedulerName\":\"default-scheduler\",\"securityContext\":{},\"terminationGracePeriodSeconds\":30,\"volumes\":[{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-green-config\"},\"name\":\"jboss-config\"},{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-green-config\"},\"name\":\"jboss-config1\"}]}},\"test\":false,\"triggers\":[]},\"status\":{\"availableReplicas\":1,\"conditions\":[{\"lastTransitionTime\":\"2019-03-22T13:59:23Z\",\"lastUpdateTime\":\"2019-03-22T13:59:23Z\",\"message\":\"Deployment config has minimum availability.\",\"status\":\"True\",\"type\":\"Available\"},{\"lastTransitionTime\":\"2019-03-22T13:58:10Z\",\"lastUpdateTime\":\"2019-03-22T13:59:23Z\",\"message\":\"replication controller \\\"tasks-green-1\\\" successfully rolled out\",\"reason\":\"NewReplicationControllerAvailable\",\"status\":\"True\",\"type\":\"Progressing\"}],\"details\":{\"causes\":[{\"type\":\"Manual\"}],\"message\":\"manual change\"},\"latestVersion\":1,\"observedGeneration\":7,\"readyReplicas\":1,\"replicas\":1,\"unavailableReplicas\":0,\"updatedReplicas\":1}}\n","openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"tasks-green","deploymentconfig":"tasks-green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"tasks-green","deploymentconfig":"tasks-green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"jboss-config","configMap":{"name":"tasks-green-config","defaultMode":420}},{"name":"jboss-config1","configMap":{"name":"tasks-green-config","defaultMode":420}}],"containers":[{"name":"tasks-green","image":"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.0-0","resources":{},"volumeMounts":[{"name":"jboss-config","mountPath":"/opt/eap/standalone/configuration/application-users.properties","subPath":"application-users.properties"},{"name":"jboss-config1","mountPath":"/opt/eap/standalone/configuration/application-roles.properties","subPath":"application-roles.properties"}],"readinessProbe":{"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":2,"observedGeneration":7,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-22T13:59:23Z","lastTransitionTime":"2019-03-22T13:59:23Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-22T13:59:23Z","lastTransitionTime":"2019-03-22T13:58:10Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"tasks-green-1\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-22T14:17:10Z
+    generation: 3
+    labels:
+      app: tasks-green
+      openshift.io/deployment-config.name: tasks-green
+    name: tasks-green-2
+    namespace: jei-tasks-prod
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: tasks-green
+      uid: 763eb841-4c07-11e9-b999-0611106f25de
+    resourceVersion: "1037760"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/replicationcontrollers/tasks-green-2
+    uid: 2e415c58-4cad-11e9-b999-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: tasks-green
+      deployment: tasks-green-2
+      deploymentconfig: tasks-green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "2"
+          openshift.io/deployment-config.name: tasks-green
+          openshift.io/deployment.name: tasks-green-2
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: tasks-green
+          deployment: tasks-green-2
+          deploymentconfig: tasks-green
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.0-0
+          imagePullPolicy: IfNotPresent
+          name: tasks-green
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/eap/standalone/configuration/application-users.properties
+            name: jboss-config
+            subPath: application-users.properties
+          - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+            name: jboss-config1
+            subPath: application-roles.properties
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config1
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-03-22 15:14:02 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-22 15:12:40 +0000 UTC
+      openshift.io/deployer-pod.name: tasks-green-3-deploy
+      openshift.io/deployment-config.latest-version: "3"
+      openshift.io/deployment-config.name: tasks-green
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: ""
+      openshift.io/deployment.status-reason: manual change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"tasks-green","namespace":"jei-tasks-prod","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green","uid":"763eb841-4c07-11e9-b999-0611106f25de","resourceVersion":"1037457","generation":10,"creationTimestamp":"2019-03-21T18:30:54Z","labels":{"app":"tasks-green"},"annotations":{"kubectl.kubernetes.io/last-applied-configuration":"{\"apiVersion\":\"apps.openshift.io/v1\",\"kind\":\"DeploymentConfig\",\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":\"2019-03-21T18:30:54Z\",\"generation\":8,\"labels\":{\"app\":\"tasks-green\"},\"name\":\"tasks-green\",\"namespace\":\"jei-tasks-prod\",\"resourceVersion\":\"1024990\",\"selfLink\":\"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green\",\"uid\":\"763eb841-4c07-11e9-b999-0611106f25de\"},\"spec\":{\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"app\":\"tasks-green\",\"deploymentconfig\":\"tasks-green\"},\"strategy\":{\"activeDeadlineSeconds\":21600,\"resources\":{},\"rollingParams\":{\"intervalSeconds\":1,\"maxSurge\":\"25%\",\"maxUnavailable\":\"25%\",\"timeoutSeconds\":600,\"updatePeriodSeconds\":1},\"type\":\"Rolling\"},\"template\":{\"metadata\":{\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftNewApp\"},\"creationTimestamp\":null,\"labels\":{\"app\":\"tasks-green\",\"deploymentconfig\":\"tasks-green\"}},\"spec\":{\"containers\":[{\"image\":\"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1\",\"imagePullPolicy\":\"IfNotPresent\",\"name\":\"tasks-green\",\"readinessProbe\":{\"failureThreshold\":3,\"httpGet\":{\"path\":\"/\",\"port\":8080,\"scheme\":\"HTTP\"},\"initialDelaySeconds\":60,\"periodSeconds\":10,\"successThreshold\":1,\"timeoutSeconds\":1},\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"terminationMessagePolicy\":\"File\",\"volumeMounts\":[{\"mountPath\":\"/opt/eap/standalone/configuration/application-users.properties\",\"name\":\"jboss-config\",\"subPath\":\"application-users.properties\"},{\"mountPath\":\"/opt/eap/standalone/configuration/application-roles.properties\",\"name\":\"jboss-config1\",\"subPath\":\"application-roles.properties\"}]}],\"dnsPolicy\":\"ClusterFirst\",\"restartPolicy\":\"Always\",\"schedulerName\":\"default-scheduler\",\"securityContext\":{},\"terminationGracePeriodSeconds\":30,\"volumes\":[{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-green-config\"},\"name\":\"jboss-config\"},{\"configMap\":{\"defaultMode\":420,\"name\":\"tasks-green-config\"},\"name\":\"jboss-config1\"}]}},\"test\":false,\"triggers\":[]},\"status\":{\"availableReplicas\":1,\"conditions\":[{\"lastTransitionTime\":\"2019-03-22T13:59:23Z\",\"lastUpdateTime\":\"2019-03-22T13:59:23Z\",\"message\":\"Deployment config has minimum availability.\",\"status\":\"True\",\"type\":\"Available\"},{\"lastTransitionTime\":\"2019-03-22T14:18:31Z\",\"lastUpdateTime\":\"2019-03-22T14:18:34Z\",\"message\":\"replication controller \\\"tasks-green-2\\\" successfully rolled out\",\"reason\":\"NewReplicationControllerAvailable\",\"status\":\"True\",\"type\":\"Progressing\"}],\"details\":{\"causes\":[{\"type\":\"Manual\"}],\"message\":\"manual change\"},\"latestVersion\":2,\"observedGeneration\":8,\"readyReplicas\":1,\"replicas\":1,\"unavailableReplicas\":0,\"updatedReplicas\":1}}\n","openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"tasks-green","deploymentconfig":"tasks-green"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"tasks-green","deploymentconfig":"tasks-green"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"jboss-config","configMap":{"name":"tasks-green-config","defaultMode":420}},{"name":"jboss-config1","configMap":{"name":"tasks-green-config","defaultMode":420}}],"containers":[{"name":"tasks-green","image":"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1","resources":{},"volumeMounts":[{"name":"jboss-config","mountPath":"/opt/eap/standalone/configuration/application-users.properties","subPath":"application-users.properties"},{"name":"jboss-config1","mountPath":"/opt/eap/standalone/configuration/application-roles.properties","subPath":"application-roles.properties"}],"readinessProbe":{"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"IfNotPresent"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":3,"observedGeneration":9,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"manual change","causes":[{"type":"Manual"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-22T13:59:23Z","lastTransitionTime":"2019-03-22T13:59:23Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-22T14:18:34Z","lastTransitionTime":"2019-03-22T14:18:31Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"tasks-green-2\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-22T15:12:40Z
+    generation: 2
+    labels:
+      app: tasks-green
+      openshift.io/deployment-config.name: tasks-green
+    name: tasks-green-3
+    namespace: jei-tasks-prod
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: tasks-green
+      uid: 763eb841-4c07-11e9-b999-0611106f25de
+    resourceVersion: "1037774"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/replicationcontrollers/tasks-green-3
+    uid: ef3fc226-4cb4-11e9-b999-0611106f25de
+  spec:
+    replicas: 1
+    selector:
+      app: tasks-green
+      deployment: tasks-green-3
+      deploymentconfig: tasks-green
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "3"
+          openshift.io/deployment-config.name: tasks-green
+          openshift.io/deployment.name: tasks-green-3
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: tasks-green
+          deployment: tasks-green-3
+          deploymentconfig: tasks-green
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+          imagePullPolicy: IfNotPresent
+          name: tasks-green
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/eap/standalone/configuration/application-users.properties
+            name: jboss-config
+            subPath: application-users.properties
+          - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+            name: jboss-config1
+            subPath: application-roles.properties
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config1
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2019-03-21T18:24:47Z
+    labels:
+      app: tasks-blue
+    name: tasks-blue
+    namespace: jei-tasks-prod
+    resourceVersion: "796431"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/services/tasks-blue
+    uid: 9b6ad3b8-4c06-11e9-b999-0611106f25de
+  spec:
+    clusterIP: 172.30.226.226
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: tasks-blue
+      deploymentconfig: tasks-blue
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2019-03-21T18:31:50Z
+    labels:
+      app: tasks-green
+    name: tasks-green
+    namespace: jei-tasks-prod
+    resourceVersion: "797810"
+    selfLink: /api/v1/namespaces/jei-tasks-prod/services/tasks-green
+    uid: 97d8c88a-4c07-11e9-b999-0611106f25de
+  spec:
+    clusterIP: 172.30.234.226
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: tasks-green
+      deploymentconfig: tasks-green
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":"2019-03-21T18:20:51Z","generation":7,"labels":{"app":"tasks-blue"},"name":"tasks-blue","namespace":"jei-tasks-prod","resourceVersion":"1032887","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-blue","uid":"0efb79ab-4c06-11e9-b999-0611106f25de"},"spec":{"replicas":1,"revisionHistoryLimit":10,"selector":{"app":"tasks-blue","deploymentconfig":"tasks-blue"},"strategy":{"activeDeadlineSeconds":21600,"resources":{},"rollingParams":{"intervalSeconds":1,"maxSurge":"25%","maxUnavailable":"25%","timeoutSeconds":600,"updatePeriodSeconds":1},"type":"Rolling"},"template":{"metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"tasks-blue","deploymentconfig":"tasks-blue"}},"spec":{"containers":[{"image":"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1","imagePullPolicy":"IfNotPresent","name":"tasks-blue","readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/opt/eap/standalone/configuration/application-users.properties","name":"jboss-config","subPath":"application-users.properties"},{"mountPath":"/opt/eap/standalone/configuration/application-roles.properties","name":"jboss-config1","subPath":"application-roles.properties"}]}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"configMap":{"defaultMode":420,"name":"tasks-blue-config"},"name":"jboss-config"},{"configMap":{"defaultMode":420,"name":"tasks-blue-config"},"name":"jboss-config1"}]}},"test":false,"triggers":[]},"status":{"availableReplicas":1,"conditions":[{"lastTransitionTime":"2019-03-22T14:52:46Z","lastUpdateTime":"2019-03-22T14:52:46Z","message":"Deployment config has minimum availability.","status":"True","type":"Available"},{"lastTransitionTime":"2019-03-22T14:51:28Z","lastUpdateTime":"2019-03-22T14:52:46Z","message":"replication controller \"tasks-blue-1\" successfully rolled out","reason":"NewReplicationControllerAvailable","status":"True","type":"Progressing"}],"details":{"causes":[{"type":"Manual"}],"message":"manual change"},"latestVersion":1,"observedGeneration":7,"readyReplicas":1,"replicas":1,"unavailableReplicas":0,"updatedReplicas":1}}
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-21T18:20:51Z
+    generation: 8
+    labels:
+      app: tasks-blue
+    name: tasks-blue
+    namespace: jei-tasks-prod
+    resourceVersion: "1039974"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-blue
+    uid: 0efb79ab-4c06-11e9-b999-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: tasks-blue
+      deploymentconfig: tasks-blue
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: tasks-blue
+          deploymentconfig: tasks-blue
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+          imagePullPolicy: IfNotPresent
+          name: tasks-blue
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/eap/standalone/configuration/application-users.properties
+            name: jboss-config
+            subPath: application-users.properties
+          - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+            name: jboss-config1
+            subPath: application-roles.properties
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tasks-blue-config
+          name: jboss-config
+        - configMap:
+            defaultMode: 420
+            name: tasks-blue-config
+          name: jboss-config1
+    test: false
+    triggers: []
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-22T14:52:46Z
+      lastUpdateTime: 2019-03-22T14:52:46Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2019-03-22T15:23:58Z
+      lastUpdateTime: 2019-03-22T15:24:01Z
+      message: replication controller "tasks-blue-2" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: Manual
+      message: manual change
+    latestVersion: 2
+    observedGeneration: 8
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":"2019-03-21T18:30:54Z","generation":8,"labels":{"app":"tasks-green"},"name":"tasks-green","namespace":"jei-tasks-prod","resourceVersion":"1024990","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green","uid":"763eb841-4c07-11e9-b999-0611106f25de"},"spec":{"replicas":1,"revisionHistoryLimit":10,"selector":{"app":"tasks-green","deploymentconfig":"tasks-green"},"strategy":{"activeDeadlineSeconds":21600,"resources":{},"rollingParams":{"intervalSeconds":1,"maxSurge":"25%","maxUnavailable":"25%","timeoutSeconds":600,"updatePeriodSeconds":1},"type":"Rolling"},"template":{"metadata":{"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"},"creationTimestamp":null,"labels":{"app":"tasks-green","deploymentconfig":"tasks-green"}},"spec":{"containers":[{"image":"docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1","imagePullPolicy":"IfNotPresent","name":"tasks-green","readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/","port":8080,"scheme":"HTTP"},"initialDelaySeconds":60,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","volumeMounts":[{"mountPath":"/opt/eap/standalone/configuration/application-users.properties","name":"jboss-config","subPath":"application-users.properties"},{"mountPath":"/opt/eap/standalone/configuration/application-roles.properties","name":"jboss-config1","subPath":"application-roles.properties"}]}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"configMap":{"defaultMode":420,"name":"tasks-green-config"},"name":"jboss-config"},{"configMap":{"defaultMode":420,"name":"tasks-green-config"},"name":"jboss-config1"}]}},"test":false,"triggers":[]},"status":{"availableReplicas":1,"conditions":[{"lastTransitionTime":"2019-03-22T13:59:23Z","lastUpdateTime":"2019-03-22T13:59:23Z","message":"Deployment config has minimum availability.","status":"True","type":"Available"},{"lastTransitionTime":"2019-03-22T14:18:31Z","lastUpdateTime":"2019-03-22T14:18:34Z","message":"replication controller \"tasks-green-2\" successfully rolled out","reason":"NewReplicationControllerAvailable","status":"True","type":"Progressing"}],"details":{"causes":[{"type":"Manual"}],"message":"manual change"},"latestVersion":2,"observedGeneration":8,"readyReplicas":1,"replicas":1,"unavailableReplicas":0,"updatedReplicas":1}}
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-21T18:30:54Z
+    generation: 10
+    labels:
+      app: tasks-green
+    name: tasks-green
+    namespace: jei-tasks-prod
+    resourceVersion: "1037776"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/jei-tasks-prod/deploymentconfigs/tasks-green
+    uid: 763eb841-4c07-11e9-b999-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: tasks-green
+      deploymentconfig: tasks-green
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: tasks-green
+          deploymentconfig: tasks-green
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/jei-tasks-dev/tasks:1.1
+          imagePullPolicy: IfNotPresent
+          name: tasks-green
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/eap/standalone/configuration/application-users.properties
+            name: jboss-config
+            subPath: application-users.properties
+          - mountPath: /opt/eap/standalone/configuration/application-roles.properties
+            name: jboss-config1
+            subPath: application-roles.properties
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config
+        - configMap:
+            defaultMode: 420
+            name: tasks-green-config
+          name: jboss-config1
+    test: false
+    triggers: []
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-22T13:59:23Z
+      lastUpdateTime: 2019-03-22T13:59:23Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2019-03-22T15:13:59Z
+      lastUpdateTime: 2019-03-22T15:14:03Z
+      message: replication controller "tasks-green-3" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: Manual
+      message: manual change
+    latestVersion: 3
+    observedGeneration: 10
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/image.dockerRepositoryCheck: 2019-03-21T18:20:51Z
+    creationTimestamp: 2019-03-21T18:20:51Z
+    generation: 2
+    name: tasks-blue
+    namespace: jei-tasks-prod
+    resourceVersion: "795670"
+    selfLink: /apis/image.openshift.io/v1/namespaces/jei-tasks-prod/imagestreams/tasks-blue
+    uid: 0efa65ae-4c06-11e9-b999-0611106f25de
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/jei-tasks-dev/tasks:0.0
+      generation: 2
+      importPolicy: {}
+      name: "0.0"
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/jei-tasks-prod/tasks-blue
+    tags:
+    - conditions:
+      - generation: 2
+        lastTransitionTime: 2019-03-21T18:20:51Z
+        message: 'Internal error occurred: Get https://docker-registry.default.svc:5000/v2/:
+          x509: certificate signed by unknown authority'
+        reason: InternalError
+        status: "False"
+        type: ImportSuccess
+      items: null
+      tag: "0.0"
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/image.dockerRepositoryCheck: 2019-03-21T18:30:54Z
+    creationTimestamp: 2019-03-21T18:30:54Z
+    generation: 2
+    name: tasks-green
+    namespace: jei-tasks-prod
+    resourceVersion: "797636"
+    selfLink: /apis/image.openshift.io/v1/namespaces/jei-tasks-prod/imagestreams/tasks-green
+    uid: 763dbb9e-4c07-11e9-b999-0611106f25de
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: docker-registry.default.svc:5000/jei-tasks-dev/tasks:0.0
+      generation: 2
+      importPolicy: {}
+      name: "0.0"
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/jei-tasks-prod/tasks-green
+    tags:
+    - conditions:
+      - generation: 2
+        lastTransitionTime: 2019-03-21T18:30:54Z
+        message: 'Internal error occurred: Get https://docker-registry.default.svc:5000/v2/:
+          x509: certificate signed by unknown authority'
+        reason: InternalError
+        status: "False"
+        type: ImportSuccess
+      items: null
+      tag: "0.0"
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"route.openshift.io/v1","kind":"Route","metadata":{"annotations":{"openshift.io/host.generated":"true"},"creationTimestamp":"2019-03-21T18:44:33Z","labels":{"app":"tasks-blue"},"name":"tasks","namespace":"jei-tasks-prod","resourceVersion":"1037898","selfLink":"/apis/route.openshift.io/v1/namespaces/jei-tasks-prod/routes/tasks","uid":"5eba1aa5-4c09-11e9-b999-0611106f25de"},"spec":{"host":"tasks-jei-tasks-prod.apps.7b10.openshift.opentlc.com","port":{"targetPort":8080},"to":{"kind":"Service","name":"tasks-blue","weight":100},"wildcardPolicy":"None"},"status":{"ingress":[{"conditions":[{"lastTransitionTime":"2019-03-21T18:44:33Z","status":"True","type":"Admitted"}],"host":"tasks-jei-tasks-prod.apps.7b10.openshift.opentlc.com","routerName":"router","wildcardPolicy":"None"}]}}
+      openshift.io/host.generated: "true"
+    creationTimestamp: 2019-03-21T18:44:33Z
+    labels:
+      app: tasks-blue
+    name: tasks
+    namespace: jei-tasks-prod
+    resourceVersion: "1040803"
+    selfLink: /apis/route.openshift.io/v1/namespaces/jei-tasks-prod/routes/tasks
+    uid: 5eba1aa5-4c09-11e9-b999-0611106f25de
+  spec:
+    host: tasks-jei-tasks-prod.apps.7b10.openshift.opentlc.com
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: tasks-blue
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2019-03-21T18:44:33Z
+        status: "True"
+        type: Admitted
+      host: tasks-jei-tasks-prod.apps.7b10.openshift.opentlc.com
+      routerName: router
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

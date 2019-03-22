@@ -1,0 +1,611 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: nexus3
+      openshift.io/deployment.name: nexus3-2
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-19T18:10:39Z
+    generateName: nexus3-2-
+    labels:
+      app: nexus3
+      deployment: nexus3-2
+      deploymentconfig: nexus3
+    name: nexus3-2-ckqck
+    namespace: jei-nexus
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: nexus3-2
+      uid: 42d51073-4a72-11e9-bdbd-0611106f25de
+    resourceVersion: "298505"
+    selfLink: /api/v1/namespaces/jei-nexus/pods/nexus3-2-ckqck
+    uid: 4d9732e8-4a72-11e9-bdbd-0611106f25de
+  spec:
+    containers:
+    - image: sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+      imagePullPolicy: Always
+      livenessProbe:
+        exec:
+          command:
+          - echo
+          - ok
+        failureThreshold: 3
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: nexus3
+      ports:
+      - containerPort: 8081
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 8081
+          scheme: HTTP
+        initialDelaySeconds: 60
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: "2"
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1001750000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /nexus-data
+        name: nexus3-volume-1
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-kl5pc
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-rzqgv
+    nodeName: node6.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1001750000
+      seLinuxOptions:
+        level: s0:c42,c14
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: nexus3-volume-1
+      persistentVolumeClaim:
+        claimName: nexus-pvc
+    - name: default-token-kl5pc
+      secret:
+        defaultMode: 420
+        secretName: default-token-kl5pc
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T18:10:40Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T21:33:31Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-19T18:10:40Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://81df31ea3bbf9a38f7ebb5c670761559bb560ec58553e24f52ce91047ffaa253
+      image: docker.io/sonatype/nexus3:latest
+      imageID: docker-pullable://docker.io/sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+      lastState:
+        terminated:
+          containerID: docker://128d6d5f4e57c50526f987aa78a95a02c39731d09dc28e4d775117cfeb14c236
+          exitCode: 255
+          finishedAt: 2019-03-19T21:30:51Z
+          reason: Error
+          startedAt: 2019-03-19T18:10:43Z
+      name: nexus3
+      ready: true
+      restartCount: 1
+      state:
+        running:
+          startedAt: 2019-03-19T21:31:53Z
+    hostIP: 192.168.0.12
+    phase: Running
+    podIP: 10.1.2.156
+    qosClass: Burstable
+    startTime: 2019-03-19T18:10:40Z
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-03-19 17:57:03 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 17:56:57 +0000 UTC
+      openshift.io/deployer-pod.name: nexus3-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: nexus3
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"nexus3","namespace":"jei-nexus","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-nexus/deploymentconfigs/nexus3","uid":"6301ef61-4a70-11e9-bdbd-0611106f25de","resourceVersion":"236222","generation":2,"creationTimestamp":"2019-03-19T17:56:56Z","labels":{"app":"nexus3"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["nexus3"],"from":{"kind":"ImageStreamTag","namespace":"jei-nexus","name":"nexus3:latest"},"lastTriggeredImage":"sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"nexus3","deploymentconfig":"nexus3"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"nexus3","deploymentconfig":"nexus3"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"nexus3-volume-1","emptyDir":{}}],"containers":[{"name":"nexus3","image":"sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa","ports":[{"containerPort":8081,"protocol":"TCP"}],"resources":{},"volumeMounts":[{"name":"nexus3-volume-1","mountPath":"/nexus-data"}],"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":1,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2019-03-19T17:56:56Z","lastTransitionTime":"2019-03-19T17:56:56Z","message":"Deployment config does not have minimum availability."}]}}
+    creationTimestamp: 2019-03-19T17:56:57Z
+    generation: 3
+    labels:
+      app: nexus3
+      openshift.io/deployment-config.name: nexus3
+    name: nexus3-1
+    namespace: jei-nexus
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: nexus3
+      uid: 6301ef61-4a70-11e9-bdbd-0611106f25de
+    resourceVersion: "240169"
+    selfLink: /api/v1/namespaces/jei-nexus/replicationcontrollers/nexus3-1
+    uid: 6314ccce-4a70-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 0
+    selector:
+      app: nexus3
+      deployment: nexus3-1
+      deploymentconfig: nexus3
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: nexus3
+          openshift.io/deployment.name: nexus3-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: nexus3
+          deployment: nexus3-1
+          deploymentconfig: nexus3
+      spec:
+        containers:
+        - image: sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+          imagePullPolicy: Always
+          name: nexus3
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /nexus-data
+            name: nexus3-volume-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: nexus3-volume-1
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-03-19 18:11:44 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-19 18:10:21 +0000 UTC
+      openshift.io/deployer-pod.name: nexus3-2-deploy
+      openshift.io/deployment-config.latest-version: "2"
+      openshift.io/deployment-config.name: nexus3
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"nexus3","namespace":"jei-nexus","selfLink":"/apis/apps.openshift.io/v1/namespaces/jei-nexus/deploymentconfigs/nexus3","uid":"6301ef61-4a70-11e9-bdbd-0611106f25de","resourceVersion":"240141","generation":9,"creationTimestamp":"2019-03-19T17:56:56Z","labels":{"app":"nexus3"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Recreate","recreateParams":{"timeoutSeconds":600},"rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["nexus3"],"from":{"kind":"ImageStreamTag","namespace":"jei-nexus","name":"nexus3:latest"},"lastTriggeredImage":"sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"nexus3","deploymentconfig":"nexus3"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"nexus3","deploymentconfig":"nexus3"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"volumes":[{"name":"nexus3-volume-1","persistentVolumeClaim":{"claimName":"nexus-pvc"}}],"containers":[{"name":"nexus3","image":"sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa","ports":[{"containerPort":8081,"protocol":"TCP"}],"resources":{"limits":{"cpu":"2","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"volumeMounts":[{"name":"nexus3-volume-1","mountPath":"/nexus-data"}],"livenessProbe":{"exec":{"command":["echo","ok"]},"initialDelaySeconds":60,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"readinessProbe":{"httpGet":{"path":"/","port":8081,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":2,"observedGeneration":8,"replicas":1,"updatedReplicas":1,"availableReplicas":1,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"True","lastUpdateTime":"2019-03-19T17:57:03Z","lastTransitionTime":"2019-03-19T17:57:03Z","message":"Deployment config has minimum availability."},{"type":"Progressing","status":"True","lastUpdateTime":"2019-03-19T17:57:03Z","lastTransitionTime":"2019-03-19T17:56:59Z","reason":"NewReplicationControllerAvailable","message":"replication controller \"nexus3-1\" successfully rolled out"}],"readyReplicas":1}}
+    creationTimestamp: 2019-03-19T18:10:21Z
+    generation: 2
+    labels:
+      app: nexus3
+      openshift.io/deployment-config.name: nexus3
+    name: nexus3-2
+    namespace: jei-nexus
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: nexus3
+      uid: 6301ef61-4a70-11e9-bdbd-0611106f25de
+    resourceVersion: "298508"
+    selfLink: /api/v1/namespaces/jei-nexus/replicationcontrollers/nexus3-2
+    uid: 42d51073-4a72-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    selector:
+      app: nexus3
+      deployment: nexus3-2
+      deploymentconfig: nexus3
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "2"
+          openshift.io/deployment-config.name: nexus3
+          openshift.io/deployment.name: nexus3-2
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: nexus3
+          deployment: nexus3-2
+          deploymentconfig: nexus3
+      spec:
+        containers:
+        - image: sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+          imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+              - echo
+              - ok
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: nexus3
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: "2"
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /nexus-data
+            name: nexus3-volume-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nexus3-volume-1
+          persistentVolumeClaim:
+            claimName: nexus-pvc
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: 2019-03-19T18:18:06Z
+    labels:
+      app: nexus3
+    name: nexus-registry
+    namespace: jei-nexus
+    resourceVersion: "242303"
+    selfLink: /api/v1/namespaces/jei-nexus/services/nexus-registry
+    uid: 5797040b-4a73-11e9-bdbd-0611106f25de
+  spec:
+    clusterIP: 172.30.61.146
+    ports:
+    - port: 5000
+      protocol: TCP
+      targetPort: 5000
+    selector:
+      app: nexus3
+      deploymentconfig: nexus3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T17:56:56Z
+    labels:
+      app: nexus3
+    name: nexus3
+    namespace: jei-nexus
+    resourceVersion: "236217"
+    selfLink: /api/v1/namespaces/jei-nexus/services/nexus3
+    uid: 6302e01b-4a70-11e9-bdbd-0611106f25de
+  spec:
+    clusterIP: 172.30.38.145
+    ports:
+    - name: 8081-tcp
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+    selector:
+      app: nexus3
+      deploymentconfig: nexus3
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T17:56:56Z
+    generation: 9
+    labels:
+      app: nexus3
+    name: nexus3
+    namespace: jei-nexus
+    resourceVersion: "298509"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/jei-nexus/deploymentconfigs/nexus3
+    uid: 6301ef61-4a70-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: nexus3
+      deploymentconfig: nexus3
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: nexus3
+          deploymentconfig: nexus3
+      spec:
+        containers:
+        - image: sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+          imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+              - echo
+              - ok
+            failureThreshold: 3
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: nexus3
+          ports:
+          - containerPort: 8081
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: "2"
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 1Gi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /nexus-data
+            name: nexus3-volume-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nexus3-volume-1
+          persistentVolumeClaim:
+            claimName: nexus-pvc
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - nexus3
+        from:
+          kind: ImageStreamTag
+          name: nexus3:latest
+          namespace: jei-nexus
+        lastTriggeredImage: sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-19T18:10:40Z
+      lastUpdateTime: 2019-03-19T18:11:44Z
+      message: replication controller "nexus3-2" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: 2019-03-19T21:33:31Z
+      lastUpdateTime: 2019-03-19T21:33:31Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 2
+    observedGeneration: 9
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: 2019-03-19T17:56:57Z
+    creationTimestamp: 2019-03-19T17:56:56Z
+    generation: 2
+    labels:
+      app: nexus3
+    name: nexus3
+    namespace: jei-nexus
+    resourceVersion: "236220"
+    selfLink: /apis/image.openshift.io/v1/namespaces/jei-nexus/imagestreams/nexus3
+    uid: 6300b27f-4a70-11e9-bdbd-0611106f25de
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: sonatype/nexus3:latest
+      from:
+        kind: DockerImage
+        name: sonatype/nexus3:latest
+      generation: 2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/jei-nexus/nexus3
+    tags:
+    - items:
+      - created: 2019-03-19T17:56:57Z
+        dockerImageReference: sonatype/nexus3@sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+        generation: 2
+        image: sha256:00ede0830e375c8a9758ea5d98dd020425850bbeccc822da68e7bad7ae92dbfa
+      tag: latest
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      console.alpha.openshift.io/overview-app-route: "false"
+      openshift.io/host.generated: "true"
+    creationTimestamp: 2019-03-19T18:19:55Z
+    labels:
+      app: nexus3
+    name: nexus-registry
+    namespace: jei-nexus
+    resourceVersion: "243665"
+    selfLink: /apis/route.openshift.io/v1/namespaces/jei-nexus/routes/nexus-registry
+    uid: 98e63778-4a73-11e9-bdbd-0611106f25de
+  spec:
+    host: nexus-registry-jei-nexus.apps.7b10.openshift.opentlc.com
+    port:
+      targetPort: 5000
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: nexus-registry
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2019-03-19T18:19:55Z
+        status: "True"
+        type: Admitted
+      host: nexus-registry-jei-nexus.apps.7b10.openshift.opentlc.com
+      routerName: router
+      wildcardPolicy: None
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      console.alpha.openshift.io/overview-app-route: "true"
+      openshift.io/host.generated: "true"
+    creationTimestamp: 2019-03-19T18:00:44Z
+    labels:
+      app: nexus3
+    name: nexus3
+    namespace: jei-nexus
+    resourceVersion: "243438"
+    selfLink: /apis/route.openshift.io/v1/namespaces/jei-nexus/routes/nexus3
+    uid: ea5bca6b-4a70-11e9-bdbd-0611106f25de
+  spec:
+    host: nexus3-jei-nexus.apps.7b10.openshift.opentlc.com
+    port:
+      targetPort: 8081-tcp
+    to:
+      kind: Service
+      name: nexus3
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2019-03-19T18:00:44Z
+        status: "True"
+        type: Admitted
+      host: nexus3-jei-nexus.apps.7b10.openshift.opentlc.com
+      routerName: router
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

@@ -1,0 +1,750 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container sti-build; cpu, memory limit for container sti-build; cpu, memory
+        request for init container git-clone; cpu, memory limit for init container
+        git-clone; cpu, memory request for init container manage-dockerfile; cpu,
+        memory limit for init container manage-dockerfile'
+      openshift.io/build.name: fileserver-1
+      openshift.io/scc: privileged
+    creationTimestamp: 2019-03-20T21:44:32Z
+    labels:
+      openshift.io/build.name: fileserver-1
+    name: fileserver-1-build
+    namespace: file-server-app
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: Build
+      name: fileserver-1
+      uid: 58b915b9-4b59-11e9-b999-0611106f25de
+    resourceVersion: "555141"
+    selfLink: /api/v1/namespaces/file-server-app/pods/fileserver-1-build
+    uid: 58bb55ed-4b59-11e9-b999-0611106f25de
+  spec:
+    containers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-sti-build
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"fileserver-1","namespace":"file-server-app","selfLink":"/apis/build.openshift.io/v1/namespaces/file-server-app/builds/fileserver-1","uid":"58b915b9-4b59-11e9-b999-0611106f25de","resourceVersion":"554869","creationTimestamp":"2019-03-20T21:44:32Z","labels":{"build":"fileserver","buildconfig":"fileserver","openshift.io/build-config.name":"fileserver","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"fileserver","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"fileserver","uid":"3261d077-4b59-11e9-b999-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Binary","binary":{}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/httpd@sha256:105818bdeec6490dffbb0d1de97aff7fba7545a10c1583d02f62c374b185b8fd"},"pullSecret":{"name":"builder-dockercfg-5p26r"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/file-server-app/fileserver:latest"},"pushSecret":{"name":"builder-dockercfg-5p26r"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":null},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/file-server-app/fileserver:latest","config":{"kind":"BuildConfig","namespace":"file-server-app","name":"fileserver"},"output":{}}}
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      - name: PUSH_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/push
+      - name: PULL_DOCKERCFG_PATH
+        value: /var/run/secrets/openshift.io/pull
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: sti-build
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        privileged: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/docker.sock
+        name: docker-socket
+      - mountPath: /var/run/crio/crio.sock
+        name: crio-socket
+      - mountPath: /var/run/secrets/openshift.io/push
+        name: builder-dockercfg-5p26r-push
+        readOnly: true
+      - mountPath: /var/run/secrets/openshift.io/pull
+        name: builder-dockercfg-5p26r-pull
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-7gf4l
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: builder-dockercfg-5p26r
+    initContainers:
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-git-clone
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"fileserver-1","namespace":"file-server-app","selfLink":"/apis/build.openshift.io/v1/namespaces/file-server-app/builds/fileserver-1","uid":"58b915b9-4b59-11e9-b999-0611106f25de","resourceVersion":"554869","creationTimestamp":"2019-03-20T21:44:32Z","labels":{"build":"fileserver","buildconfig":"fileserver","openshift.io/build-config.name":"fileserver","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"fileserver","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"fileserver","uid":"3261d077-4b59-11e9-b999-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Binary","binary":{}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/httpd@sha256:105818bdeec6490dffbb0d1de97aff7fba7545a10c1583d02f62c374b185b8fd"},"pullSecret":{"name":"builder-dockercfg-5p26r"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/file-server-app/fileserver:latest"},"pushSecret":{"name":"builder-dockercfg-5p26r"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":null},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/file-server-app/fileserver:latest","config":{"kind":"BuildConfig","namespace":"file-server-app","name":"fileserver"},"output":{}}}
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: git-clone
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      stdin: true
+      stdinOnce: true
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-7gf4l
+        readOnly: true
+    - args:
+      - --loglevel=0
+      command:
+      - openshift-manage-dockerfile
+      env:
+      - name: BUILD
+        value: |
+          {"kind":"Build","apiVersion":"build.openshift.io/v1","metadata":{"name":"fileserver-1","namespace":"file-server-app","selfLink":"/apis/build.openshift.io/v1/namespaces/file-server-app/builds/fileserver-1","uid":"58b915b9-4b59-11e9-b999-0611106f25de","resourceVersion":"554869","creationTimestamp":"2019-03-20T21:44:32Z","labels":{"build":"fileserver","buildconfig":"fileserver","openshift.io/build-config.name":"fileserver","openshift.io/build.start-policy":"Serial"},"annotations":{"openshift.io/build-config.name":"fileserver","openshift.io/build.number":"1"},"ownerReferences":[{"apiVersion":"build.openshift.io/v1","kind":"BuildConfig","name":"fileserver","uid":"3261d077-4b59-11e9-b999-0611106f25de","controller":true}]},"spec":{"serviceAccount":"builder","source":{"type":"Binary","binary":{}},"strategy":{"type":"Source","sourceStrategy":{"from":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/openshift/httpd@sha256:105818bdeec6490dffbb0d1de97aff7fba7545a10c1583d02f62c374b185b8fd"},"pullSecret":{"name":"builder-dockercfg-5p26r"}}},"output":{"to":{"kind":"DockerImage","name":"docker-registry.default.svc:5000/file-server-app/fileserver:latest"},"pushSecret":{"name":"builder-dockercfg-5p26r"}},"resources":{},"postCommit":{},"nodeSelector":null,"triggeredBy":null},"status":{"phase":"New","outputDockerImageReference":"docker-registry.default.svc:5000/file-server-app/fileserver:latest","config":{"kind":"BuildConfig","namespace":"file-server-app","name":"fileserver"},"output":{}}}
+      - name: ALLOWED_UIDS
+        value: 1-
+      - name: DROP_CAPS
+        value: KILL,MKNOD,SETGID,SETUID
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imagePullPolicy: IfNotPresent
+      name: manage-dockerfile
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+      - mountPath: /tmp/build
+        name: buildworkdir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: builder-token-7gf4l
+        readOnly: true
+    nodeName: node4.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Never
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: builder
+    serviceAccountName: builder
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - emptyDir: {}
+      name: buildworkdir
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: docker-socket
+    - hostPath:
+        path: /var/run/crio/crio.sock
+        type: ""
+      name: crio-socket
+    - name: builder-dockercfg-5p26r-push
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-5p26r
+    - name: builder-dockercfg-5p26r-pull
+      secret:
+        defaultMode: 384
+        secretName: builder-dockercfg-5p26r
+    - name: builder-token-7gf4l
+      secret:
+        defaultMode: 420
+        secretName: builder-token-7gf4l
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-20T21:44:53Z
+      reason: PodCompleted
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-20T21:45:54Z
+      reason: PodCompleted
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      reason: PodCompleted
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-20T21:44:32Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://7cbfa5d114089241c2748329f587c441b012cd7e0f91ee50a88cc55659397753
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: sti-build
+      ready: false
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://7cbfa5d114089241c2748329f587c441b012cd7e0f91ee50a88cc55659397753
+          exitCode: 0
+          finishedAt: 2019-03-20T21:45:53Z
+          reason: Completed
+          startedAt: 2019-03-20T21:44:53Z
+    hostIP: 192.168.0.129
+    initContainerStatuses:
+    - containerID: docker://a066cd958d666605b16312198eb3087e917517612a16a97259d6a391df17ef7d
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: git-clone
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://a066cd958d666605b16312198eb3087e917517612a16a97259d6a391df17ef7d
+          exitCode: 0
+          finishedAt: 2019-03-20T21:44:51Z
+          reason: Completed
+          startedAt: 2019-03-20T21:44:34Z
+    - containerID: docker://e02235e185f1326d10a23a3ae1ee9250d6ffab50cbbdf9624389d6f682b4f378
+      image: registry.redhat.io/openshift3/ose-docker-builder:v3.11.59
+      imageID: docker-pullable://registry.redhat.io/openshift3/ose-docker-builder@sha256:6f36300478f8e29e091083a862836be572d1b53d5c03f974c924d076be85ed4b
+      lastState: {}
+      name: manage-dockerfile
+      ready: true
+      restartCount: 0
+      state:
+        terminated:
+          containerID: docker://e02235e185f1326d10a23a3ae1ee9250d6ffab50cbbdf9624389d6f682b4f378
+          exitCode: 0
+          finishedAt: 2019-03-20T21:44:53Z
+          reason: Completed
+          startedAt: 2019-03-20T21:44:52Z
+    phase: Succeeded
+    podIP: 10.1.13.119
+    qosClass: Burstable
+    startTime: 2019-03-20T21:44:32Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu, memory request for
+        container fileserver; cpu, memory limit for container fileserver'
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: fileserver
+      openshift.io/deployment.name: fileserver-1
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/scc: restricted
+    creationTimestamp: 2019-03-20T21:46:44Z
+    generateName: fileserver-1-
+    labels:
+      app: fileserver
+      deployment: fileserver-1
+      deploymentconfig: fileserver
+    name: fileserver-1-tgc4v
+    namespace: file-server-app
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: fileserver-1
+      uid: a60b7883-4b59-11e9-b999-0611106f25de
+    resourceVersion: "555362"
+    selfLink: /api/v1/namespaces/file-server-app/pods/fileserver-1-tgc4v
+    uid: a7870c3b-4b59-11e9-b999-0611106f25de
+  spec:
+    containers:
+    - image: docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+      imagePullPolicy: Always
+      name: fileserver
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      - containerPort: 8443
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1536Mi
+        requests:
+          cpu: 50m
+          memory: 256Mi
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+        runAsUser: 1001830000
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-ktrcm
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-f5hgb
+    nodeName: node1.7b10.internal
+    nodeSelector:
+      node-role.kubernetes.io/compute: "true"
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext:
+      fsGroup: 1001830000
+      seLinuxOptions:
+        level: s0:c43,c12
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    volumes:
+    - name: default-token-ktrcm
+      secret:
+        defaultMode: 420
+        secretName: default-token-ktrcm
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-20T21:46:44Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-20T21:46:55Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: null
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-20T21:46:44Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://611e38b4c2b8062ff414b59ad185174ac732e73b1299db0923c66e9d1cbf2730
+      image: docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+      imageID: docker-pullable://docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+      lastState: {}
+      name: fileserver
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: 2019-03-20T21:46:55Z
+    hostIP: 192.168.0.132
+    phase: Running
+    podIP: 10.1.10.54
+    qosClass: Burstable
+    startTime: 2019-03-20T21:46:44Z
+- apiVersion: v1
+  kind: ReplicationController
+  metadata:
+    annotations:
+      openshift.io/deployer-pod.completed-at: 2019-03-20 21:46:56 +0000 UTC
+      openshift.io/deployer-pod.created-at: 2019-03-20 21:46:42 +0000 UTC
+      openshift.io/deployer-pod.name: fileserver-1-deploy
+      openshift.io/deployment-config.latest-version: "1"
+      openshift.io/deployment-config.name: fileserver
+      openshift.io/deployment.phase: Complete
+      openshift.io/deployment.replicas: "1"
+      openshift.io/deployment.status-reason: config change
+      openshift.io/encoded-deployment-config: |
+        {"kind":"DeploymentConfig","apiVersion":"apps.openshift.io/v1","metadata":{"name":"fileserver","namespace":"file-server-app","selfLink":"/apis/apps.openshift.io/v1/namespaces/file-server-app/deploymentconfigs/fileserver","uid":"a6093a77-4b59-11e9-b999-0611106f25de","resourceVersion":"555290","generation":2,"creationTimestamp":"2019-03-20T21:46:42Z","labels":{"app":"fileserver"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ConfigChange"},{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["fileserver"],"from":{"kind":"ImageStreamTag","namespace":"file-server-app","name":"fileserver:latest"},"lastTriggeredImage":"docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736"}}],"replicas":1,"revisionHistoryLimit":10,"test":false,"selector":{"app":"fileserver","deploymentconfig":"fileserver"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"fileserver","deploymentconfig":"fileserver"},"annotations":{"openshift.io/generated-by":"OpenShiftNewApp"}},"spec":{"containers":[{"name":"fileserver","image":"docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":0,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config change","causes":[{"type":"ConfigChange"}]}}}
+    creationTimestamp: 2019-03-20T21:46:42Z
+    generation: 2
+    labels:
+      app: fileserver
+      openshift.io/deployment-config.name: fileserver
+    name: fileserver-1
+    namespace: file-server-app
+    ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: fileserver
+      uid: a6093a77-4b59-11e9-b999-0611106f25de
+    resourceVersion: "555370"
+    selfLink: /api/v1/namespaces/file-server-app/replicationcontrollers/fileserver-1
+    uid: a60b7883-4b59-11e9-b999-0611106f25de
+  spec:
+    replicas: 1
+    selector:
+      app: fileserver
+      deployment: fileserver-1
+      deploymentconfig: fileserver
+    template:
+      metadata:
+        annotations:
+          openshift.io/deployment-config.latest-version: "1"
+          openshift.io/deployment-config.name: fileserver
+          openshift.io/deployment.name: fileserver-1
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: fileserver
+          deployment: fileserver-1
+          deploymentconfig: fileserver
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+          imagePullPolicy: Always
+          name: fileserver
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-20T21:46:42Z
+    labels:
+      app: fileserver
+    name: fileserver
+    namespace: file-server-app
+    resourceVersion: "555288"
+    selfLink: /api/v1/namespaces/file-server-app/services/fileserver
+    uid: a60a4be3-4b59-11e9-b999-0611106f25de
+  spec:
+    clusterIP: 172.30.155.234
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      app: fileserver
+      deploymentconfig: fileserver
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-20T21:46:42Z
+    generation: 2
+    labels:
+      app: fileserver
+    name: fileserver
+    namespace: file-server-app
+    resourceVersion: "555372"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/file-server-app/deploymentconfigs/fileserver
+    uid: a6093a77-4b59-11e9-b999-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: fileserver
+      deploymentconfig: fileserver
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: fileserver
+          deploymentconfig: fileserver
+      spec:
+        containers:
+        - image: docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+          imagePullPolicy: Always
+          name: fileserver
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - fileserver
+        from:
+          kind: ImageStreamTag
+          name: fileserver:latest
+          namespace: file-server-app
+        lastTriggeredImage: docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-20T21:46:55Z
+      lastUpdateTime: 2019-03-20T21:46:55Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2019-03-20T21:46:56Z
+      lastUpdateTime: 2019-03-20T21:46:56Z
+      message: replication controller "fileserver-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 1
+    observedGeneration: 2
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: 2019-03-20T21:43:28Z
+    labels:
+      build: fileserver
+    name: fileserver
+    namespace: file-server-app
+    resourceVersion: "554868"
+    selfLink: /apis/build.openshift.io/v1/namespaces/file-server-app/buildconfigs/fileserver
+    uid: 3261d077-4b59-11e9-b999-0611106f25de
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: fileserver:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      binary: {}
+      type: Binary
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: httpd:2.4
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: f-uhhrXMDFlDSrl80D4P
+      type: GitHub
+    - generic:
+        secret: 3uoXZpA-79V_Ylz1fh3X
+      type: Generic
+  status:
+    lastVersion: 1
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: fileserver
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: fileserver-1-build
+    creationTimestamp: 2019-03-20T21:44:32Z
+    labels:
+      build: fileserver
+      buildconfig: fileserver
+      openshift.io/build-config.name: fileserver
+      openshift.io/build.start-policy: Serial
+    name: fileserver-1
+    namespace: file-server-app
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: fileserver
+      uid: 3261d077-4b59-11e9-b999-0611106f25de
+    resourceVersion: "555142"
+    selfLink: /apis/build.openshift.io/v1/namespaces/file-server-app/builds/fileserver-1
+    uid: 58b915b9-4b59-11e9-b999-0611106f25de
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-5p26r
+      to:
+        kind: ImageStreamTag
+        name: fileserver:latest
+    postCommit: {}
+    resources: {}
+    serviceAccount: builder
+    source:
+      binary: {}
+      type: Binary
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: docker-registry.default.svc:5000/openshift/httpd@sha256:105818bdeec6490dffbb0d1de97aff7fba7545a10c1583d02f62c374b185b8fd
+        pullSecret:
+          name: builder-dockercfg-5p26r
+      type: Source
+    triggeredBy: null
+  status:
+    completionTimestamp: 2019-03-20T21:45:54Z
+    config:
+      kind: BuildConfig
+      name: fileserver
+      namespace: file-server-app
+    duration: 82000000000
+    output:
+      to:
+        imageDigest: sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+    outputDockerImageReference: docker-registry.default.svc:5000/file-server-app/fileserver:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 2901
+      name: CommitContainer
+      startTime: 2019-03-20T21:45:00Z
+      steps:
+      - durationMilliseconds: 2901
+        name: CommitContainer
+        startTime: 2019-03-20T21:45:00Z
+    - durationMilliseconds: 7953
+      name: Assemble
+      startTime: 2019-03-20T21:44:55Z
+      steps:
+      - durationMilliseconds: 7953
+        name: AssembleBuildScripts
+        startTime: 2019-03-20T21:44:55Z
+    - durationMilliseconds: 50063
+      name: PushImage
+      startTime: 2019-03-20T21:45:03Z
+      steps:
+      - durationMilliseconds: 50063
+        name: PushImage
+        startTime: 2019-03-20T21:45:03Z
+    startTimestamp: 2019-03-20T21:44:32Z
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: 2019-03-20T21:43:28Z
+    generation: 1
+    labels:
+      build: fileserver
+    name: fileserver
+    namespace: file-server-app
+    resourceVersion: "555133"
+    selfLink: /apis/image.openshift.io/v1/namespaces/file-server-app/imagestreams/fileserver
+    uid: 3260c234-4b59-11e9-b999-0611106f25de
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/file-server-app/fileserver
+    tags:
+    - items:
+      - created: 2019-03-20T21:45:53Z
+        dockerImageReference: docker-registry.default.svc:5000/file-server-app/fileserver@sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+        generation: 1
+        image: sha256:d56d206bb7578f27182be6f0f1ba21b999303751ca6da1d24750224508b97736
+      tag: latest
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: 2019-03-20T21:48:14Z
+    labels:
+      app: fileserver
+    name: fileserver
+    namespace: file-server-app
+    resourceVersion: "555628"
+    selfLink: /apis/route.openshift.io/v1/namespaces/file-server-app/routes/fileserver
+    uid: dcd75046-4b59-11e9-b999-0611106f25de
+  spec:
+    host: fileserver-file-server-app.apps.7b10.openshift.opentlc.com
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: fileserver
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2019-03-20T21:48:14Z
+        status: "True"
+        type: Admitted
+      host: fileserver-file-server-app.apps.7b10.openshift.opentlc.com
+      routerName: router
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

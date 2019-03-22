@@ -1,0 +1,89 @@
+apiVersion: v1
+items:
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: 2019-03-19T20:11:41Z
+    labels:
+      build: jenkins-agent-appdev
+    name: jenkins-agent-appdev
+    namespace: jei-jenkins
+    resourceVersion: "277149"
+    selfLink: /apis/build.openshift.io/v1/namespaces/jei-jenkins/buildconfigs/jenkins-agent-appdev
+    uid: 35e55f6a-4a83-11e9-bdbd-0611106f25de
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: jenkins-agent-appdev:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      dockerfile: |-
+        FROM docker.io/openshift/jenkins-agent-maven-35-centos7:v3.11
+
+              USER root
+        RUN yum -y install skopeo && yum clean all
+
+              USER 1001
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: jenkins-agent-maven-35-centos7:v3.11
+      type: Docker
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: cPy0lNUZujcHJXQGhfTR
+      type: GitHub
+    - generic:
+        secret: jPFcK0xidoZzAs3QHA2H
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: docker.io/openshift/jenkins-agent-maven-35-centos7@sha256:5d079c69c6f159601d737a3530b41be6b0d77995ddf62396fd3aebaae908e4b6
+      type: ImageChange
+  status:
+    lastVersion: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    creationTimestamp: 2019-03-22T14:55:57Z
+    name: tasks-pipeline
+    namespace: jei-jenkins
+    resourceVersion: "1038739"
+    selfLink: /apis/build.openshift.io/v1/namespaces/jei-jenkins/buildconfigs/tasks-pipeline
+    uid: 99b50317-4cb2-11e9-b999-0611106f25de
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: {}
+    output: {}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        ref: master
+        uri: http://gogs.jei-gogs.svc.cluster.local:3000/CICDLabs/openshift-tasks-private
+      sourceSecret:
+        name: gogs-secret
+      type: Git
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: Jenkinsfile
+      type: JenkinsPipeline
+    successfulBuildsHistoryLimit: 5
+    triggers: []
+  status:
+    lastVersion: 3
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

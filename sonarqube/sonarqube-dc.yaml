@@ -1,0 +1,274 @@
+apiVersion: v1
+items:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      template.alpha.openshift.io/wait-for-ready: "true"
+    creationTimestamp: 2019-03-19T18:40:19Z
+    generation: 3
+    labels:
+      app: sonarqube_db
+      template: postgresql-persistent-template
+    name: postgresql
+    namespace: jei-sonarqube
+    resourceVersion: "298135"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/jei-sonarqube/deploymentconfigs/postgresql
+    uid: 723997cc-4a76-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      name: postgresql
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: sonarqube_db
+          name: postgresql
+      spec:
+        containers:
+        - env:
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-user
+                name: postgresql
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: postgresql
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: postgresql
+          image: docker-registry.default.svc:5000/openshift/postgresql@sha256:711a9bc9c92a1a5c75e3910833612115c56b91c4c44eccc5580afd890a2d910e
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - /usr/libexec/check-container
+              - --live
+            failureThreshold: 3
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: postgresql
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /usr/libexec/check-container
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 512Mi
+          securityContext:
+            capabilities: {}
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/pgsql/data
+            name: postgresql-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: postgresql-data
+          persistentVolumeClaim:
+            claimName: postgresql
+    test: false
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - postgresql
+        from:
+          kind: ImageStreamTag
+          name: postgresql:10
+          namespace: openshift
+        lastTriggeredImage: docker-registry.default.svc:5000/openshift/postgresql@sha256:711a9bc9c92a1a5c75e3910833612115c56b91c4c44eccc5580afd890a2d910e
+      type: ImageChange
+    - type: ConfigChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-19T18:41:44Z
+      lastUpdateTime: 2019-03-19T18:42:05Z
+      message: replication controller "postgresql-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: 2019-03-19T21:33:07Z
+      lastUpdateTime: 2019-03-19T21:33:07Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 1
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2019-03-19T18:43:30Z
+    generation: 9
+    labels:
+      app: sonarqube
+    name: sonarqube
+    namespace: jei-sonarqube
+    resourceVersion: "298582"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/jei-sonarqube/deploymentconfigs/sonarqube
+    uid: e409da98-4a76-11e9-bdbd-0611106f25de
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: sonarqube
+      deploymentconfig: sonarqube
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: sonarqube
+          deploymentconfig: sonarqube
+      spec:
+        containers:
+        - env:
+          - name: SONARQUBE_JDBC_PASSWORD
+            value: sonar
+          - name: SONARQUBE_JDBC_URL
+            value: jdbc:postgresql://postgresql/sonar
+          - name: SONARQUBE_JDBC_USERNAME
+            value: sonar
+          image: wkulhanek/sonarqube@sha256:b560ad6d9270ea9b67cdd4f00523614436405341f9118e107ea098d03776dbb4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - echo
+              - ok
+            failureThreshold: 3
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: sonarqube
+          ports:
+          - containerPort: 9000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /about
+              port: 9000
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: "2"
+              memory: 3Gi
+            requests:
+              cpu: "1"
+              memory: 2Gi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /opt/sonarqube/data
+            name: sonarqube-volume-1
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: sonarqube-volume-1
+          persistentVolumeClaim:
+            claimName: sonarqube-pvc
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - sonarqube
+        from:
+          kind: ImageStreamTag
+          name: sonarqube:6.7.6
+          namespace: jei-sonarqube
+        lastTriggeredImage: wkulhanek/sonarqube@sha256:b560ad6d9270ea9b67cdd4f00523614436405341f9118e107ea098d03776dbb4
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2019-03-19T18:55:49Z
+      lastUpdateTime: 2019-03-19T18:56:13Z
+      message: replication controller "sonarqube-2" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: 2019-03-19T21:33:38Z
+      lastUpdateTime: 2019-03-19T21:33:38Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 2
+    observedGeneration: 9
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
